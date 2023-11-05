@@ -48,17 +48,23 @@ Thumbs.db
 *.mov
 *.wmv
 
+
+
+# eclipse specific git ignore
+*.pydevproject
+.project
 .metadata
-bin/
-tmp/
+bin/**
+tmp/**
+tmp/**/*
 *.tmp
 *.bak
 *.swp
 *~.nib
 local.properties
+.classpath
 .settings/
 .loadpath
-.recommenders
 
 # External tool builders
 .externalToolBuilders/
