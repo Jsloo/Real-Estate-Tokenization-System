@@ -79,9 +79,9 @@ public class Register extends JFrame {
 		lblRealEstateTokenization.setBounds(53, 323, 400, 64);
 		panel_1.add(lblRealEstateTokenization);
 		
-		JLabel lblTolTokenize = new JLabel("ToL Tokenize");
+		JLabel lblTolTokenize = new JLabel("BB Tokenize");
 		lblTolTokenize.setFont(new Font("Tahoma", Font.BOLD, 40));
-		lblTolTokenize.setBounds(107, 261, 279, 64);
+		lblTolTokenize.setBounds(121, 261, 261, 64);
 		panel_1.add(lblTolTokenize);
 		
 		JLabel lblNewLabel = new JLabel("Register");

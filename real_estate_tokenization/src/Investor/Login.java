@@ -76,9 +76,9 @@ public class Login extends JFrame {
 		lblRealEstateTokenization.setBounds(53, 323, 400, 64);
 		panel_1.add(lblRealEstateTokenization);
 		
-		JLabel lblTolTokenize = new JLabel("ToL Tokenize");
+		JLabel lblTolTokenize = new JLabel("BB Tokenize");
 		lblTolTokenize.setFont(new Font("Tahoma", Font.BOLD, 40));
-		lblTolTokenize.setBounds(107, 261, 279, 64);
+		lblTolTokenize.setBounds(122, 260, 255, 64);
 		panel_1.add(lblTolTokenize);
 		
 		JLabel lblNewLabel = new JLabel("Welcome");
@@ -128,7 +128,7 @@ public class Login extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
-				Purchase info = new Purchase();
+				Market info = new Market();
 				info.setVisible(true);
 			}
 		});

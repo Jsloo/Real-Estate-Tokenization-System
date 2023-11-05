@@ -14,7 +14,7 @@ import javax.swing.border.MatteBorder;
 
 import Both.Register;
 import Investor.Login;
-import Investor.Purchase;
+import Investor.Market;
 
 import javax.swing.JPasswordField;
 import javax.swing.border.LineBorder;
@@ -77,9 +77,9 @@ public class Login_Owner extends JFrame {
 		lblRealEstateTokenization.setBounds(53, 323, 400, 64);
 		panel_1.add(lblRealEstateTokenization);
 		
-		JLabel lblTolTokenize = new JLabel("ToL Tokenize");
+		JLabel lblTolTokenize = new JLabel("BB Tokenize");
 		lblTolTokenize.setFont(new Font("Tahoma", Font.BOLD, 40));
-		lblTolTokenize.setBounds(107, 261, 279, 64);
+		lblTolTokenize.setBounds(118, 261, 253, 64);
 		panel_1.add(lblTolTokenize);
 		
 		JLabel lblNewLabel = new JLabel("Welcome");
