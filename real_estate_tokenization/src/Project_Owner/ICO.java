@@ -21,6 +21,11 @@ import javax.swing.JFileChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import javax.swing.JSlider;
+import javax.swing.JTree;
+import javax.swing.JScrollBar;
+import javax.swing.JSeparator;
+import javax.swing.JTextPane;
 
 public class ICO extends JFrame {
 
@@ -28,6 +33,9 @@ public class ICO extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
 
 	/**
 	 * Launch the application.
@@ -89,7 +97,7 @@ public class ICO extends JFrame {
 		        fileChooser.addChoosableFileFilter(fnef);
 		        int load = fileChooser.showOpenDialog(null);
 
-		        if(load == fileChooser.APPROVE_OPTION){
+		        if(load == JFileChooser.APPROVE_OPTION){
 		            File selectedFile = fileChooser.getSelectedFile();
 		            String path =selectedFile.getAbsolutePath();
 		            ImageIcon imageIcon = new ImageIcon(path);
@@ -99,46 +107,88 @@ public class ICO extends JFrame {
 			}
 		});
 		lblNewLabel_2.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		lblNewLabel_2.setBounds(279, 10, 144, 132);
+		lblNewLabel_2.setBounds(253, 10, 195, 154);
 		panel_1.add(lblNewLabel_2);
 		
 		JLabel lblName = new JLabel("Name");
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblName.setBounds(25, 155, 163, 36);
+		lblName.setBounds(25, 195, 163, 36);
 		panel_1.add(lblName);
 		
 		JLabel lblNumberOfToken = new JLabel("Price");
 		lblNumberOfToken.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNumberOfToken.setBounds(26, 247, 162, 36);
+		lblNumberOfToken.setBounds(30, 295, 162, 36);
 		panel_1.add(lblNumberOfToken);
 		
 		JLabel lblNumberOfToken_1 = new JLabel("Number of Token");
 		lblNumberOfToken_1.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNumberOfToken_1.setBounds(25, 201, 162, 36);
+		lblNumberOfToken_1.setBounds(25, 241, 162, 36);
 		panel_1.add(lblNumberOfToken_1);
 		
 		textField = new JTextField();
 		textField.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		textField.setBounds(253, 167, 195, 24);
+		textField.setBounds(253, 205, 195, 24);
 		panel_1.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		textField_1.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		textField_1.setBounds(253, 213, 195, 24);
+		textField_1.setBounds(253, 251, 195, 24);
 		panel_1.add(textField_1);
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
 		textField_2.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		textField_2.setBounds(253, 259, 195, 24);
+		textField_2.setBounds(253, 305, 195, 24);
 		panel_1.add(textField_2);
 		
 		JButton btnNewButton = new JButton("Publish");
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnNewButton.setBounds(289, 321, 117, 36);
+		btnNewButton.setBounds(425, 344, 117, 36);
 		panel_1.add(btnNewButton);
+		
+		JLabel lblState = new JLabel("State");
+		lblState.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblState.setBounds(524, 10, 132, 36);
+		panel_1.add(lblState);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		textField_3.setBounds(687, 20, 195, 24);
+		panel_1.add(textField_3);
+		
+		JLabel lblName_1_1 = new JLabel("City");
+		lblName_1_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblName_1_1.setBounds(524, 67, 132, 36);
+		panel_1.add(lblName_1_1);
+		
+		JLabel lblName_1_1_1 = new JLabel("Zip Code");
+		lblName_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblName_1_1_1.setBounds(524, 128, 132, 36);
+		panel_1.add(lblName_1_1_1);
+		
+		JLabel lblName_1_1_1_1 = new JLabel("Address");
+		lblName_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblName_1_1_1_1.setBounds(524, 201, 132, 36);
+		panel_1.add(lblName_1_1_1_1);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		textField_4.setBounds(687, 77, 195, 24);
+		panel_1.add(textField_4);
+		
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		textField_5.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		textField_5.setBounds(687, 140, 195, 24);
+		panel_1.add(textField_5);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		textPane.setBounds(687, 213, 195, 116);
+		panel_1.add(textPane);
 	}
-
 }
