@@ -30,7 +30,6 @@ public class Purchase extends JFrame {
 				try {
 					Purchase frame = new Purchase();
 					frame.setVisible(true);
-					System.out.print("test");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
