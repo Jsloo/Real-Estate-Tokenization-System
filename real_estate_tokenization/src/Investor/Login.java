@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -19,12 +21,16 @@ import javax.swing.JPasswordField;
 import javax.swing.border.LineBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField passwordField;
+	private JTextField txtUserName;
+	private JPasswordField txtPassword;
 
 	/**
 	 * Launch the application.
@@ -97,49 +103,67 @@ public class Login extends JFrame {
 		lblNewLabel_2.setBounds(616, 260, 102, 22);
 		panel.add(lblNewLabel_2);
 		
-		textField = new JTextField();
-		textField.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
-		textField.setBounds(616, 292, 263, 34);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtUserName = new JTextField();
+		txtUserName.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
+		txtUserName.setBounds(616, 292, 263, 34);
+		panel.add(txtUserName);
+		txtUserName.setColumns(10);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Password");
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel_2_1.setBounds(616, 347, 102, 22);
 		panel.add(lblNewLabel_2_1);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
-		passwordField.setBounds(616, 370, 263, 34);
-		panel.add(passwordField);
+		txtPassword = new JPasswordField();
+		txtPassword.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
+		txtPassword.setBounds(616, 370, 263, 34);
+		panel.add(txtPassword);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.addMouseListener(new MouseAdapter() {
+		JPanel btnLogin = new JPanel();
+		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
 		    public void mouseEntered(MouseEvent e) {
 		        // Set the font to bold
-				panel_2.setBackground(new java.awt.Color(204,204,204));
+				btnLogin.setBackground(new java.awt.Color(204,204,204));
 		    }
 		    
 		    @Override
 		    public void mouseExited(MouseEvent e) {
-		    	panel_2.setBackground(new java.awt.Color(255,255,255));
+		    	btnLogin.setBackground(new java.awt.Color(255,255,255));
 		    }
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				Market info = new Market();
-				info.setVisible(true);
+				try{
+		            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rs_token", "root", "");
+		            
+		            Statement t = (Statement) conn.createStatement();
+
+		            String script = "SELECT * from INVESTOR where Name = '" + txtUserName.getText() + "' and PASSWORD = '" + txtPassword.getText() + "'";
+
+		            ResultSet rs = ((java.sql.Statement) t).executeQuery(script);
+
+		            if(rs.next()){
+		            	JOptionPane.showMessageDialog(null, "Login Successful! ", "Success", JOptionPane.INFORMATION_MESSAGE);
+		            	setVisible(false);
+						Market info = new Market();
+						info.setVisible(true);
+		            }else{
+		                System.out.println("Not Found!");
+		            }
+		        }catch(Exception ex){
+		        	JOptionPane.showMessageDialog(null, "Username or Password Error! ", "Error", JOptionPane.INFORMATION_MESSAGE);
+		        } 
+				
 			}
 		});
-		panel_2.setBackground(Color.WHITE);
-		panel_2.setBorder(new LineBorder(Color.PINK, 2, true));
-		panel_2.setBounds(714, 456, 93, 34);
-		panel.add(panel_2);
+		btnLogin.setBackground(Color.WHITE);
+		btnLogin.setBorder(new LineBorder(Color.PINK, 2, true));
+		btnLogin.setBounds(714, 456, 93, 34);
+		panel.add(btnLogin);
 		
 		JLabel lblNewLabel_3 = new JLabel("Login");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 16));
-		panel_2.add(lblNewLabel_3);
+		btnLogin.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("Login in as Project Owner");
 		lblNewLabel_4.addMouseListener(new MouseAdapter() {
