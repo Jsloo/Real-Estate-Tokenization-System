@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 
 import javax.swing.ButtonGroup;
@@ -15,20 +17,29 @@ import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
 import Investor.Login;
+import Investor.Market;
 import Project_Owner.Login_Owner;
 
 import javax.swing.JPasswordField;
 import javax.swing.border.LineBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Register extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField passwordField;
-
+	private JTextField txtUserName;
+	private JPasswordField txtPassword;
+	private boolean role = false;
 	/**
 	 * Launch the application.
 	 */
@@ -100,21 +111,21 @@ public class Register extends JFrame {
 		lblNewLabel_2.setBounds(616, 208, 102, 22);
 		panel.add(lblNewLabel_2);
 		
-		textField = new JTextField();
-		textField.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
-		textField.setBounds(616, 240, 263, 34);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtUserName = new JTextField();
+		txtUserName.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
+		txtUserName.setBounds(616, 240, 263, 34);
+		panel.add(txtUserName);
+		txtUserName.setColumns(10);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Password");
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel_2_1.setBounds(616, 284, 102, 22);
 		panel.add(lblNewLabel_2_1);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
-		passwordField.setBounds(616, 316, 263, 34);
-		panel.add(passwordField);
+		txtPassword = new JPasswordField();
+		txtPassword.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
+		txtPassword.setBounds(616, 316, 263, 34);
+		panel.add(txtPassword);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.addMouseListener(new MouseAdapter() {
@@ -128,6 +139,37 @@ public class Register extends JFrame {
 		    public void mouseExited(MouseEvent e) {
 		    	panel_2.setBackground(new java.awt.Color(255,255,255));
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try{
+					System.out.println("test1");
+//					String thisRole;
+//					if (role == true) {
+//						thisRole = "INVESTOR";
+//					}else {
+//						thisRole = "PROJECTOWNER";
+//					}
+//					
+//		            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rs_token", "root", "");
+//		            
+//		            try (Statement statement = conn.createStatement()) {
+//		                String checkExist = "SELECT NAME FROM ACCOUNT WHERE USERNAME = '" + txtUserName.getText() + "'";
+//		                ResultSet resultSet = statement.executeQuery(checkExist);
+//		                if (resultSet.next()) {
+////		                    return "Username already exists!";
+//		                }
+//		            } 
+//
+//		            try (Statement statement = conn.createStatement()) {
+//		                String script = "INSERT INTO " + thisRole + " (USERNAME, PASSWORD, TYPE, AGE, EMAIL, PHONE, GENDER) " +
+//		                                "VALUES ('" + txtUserName.getText() + "', '" + txtPassword.getText() + "')";
+//		                statement.executeUpdate(script);
+////		                return "Register Successful!";
+//		            } 
+		        }catch(Exception ex){
+		        	JOptionPane.showMessageDialog(null, "Username or Password Error! ", "Error", JOptionPane.INFORMATION_MESSAGE);
+		        } 
+			}
 		});
 		panel_2.setBackground(Color.WHITE);
 		panel_2.setBorder(new LineBorder(Color.PINK, 2, true));
@@ -177,6 +219,11 @@ public class Register extends JFrame {
 
 		// First radio button (Investor)
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Investor");
+		rdbtnNewRadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				role = true;
+			}
+		});
 		rdbtnNewRadioButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		rdbtnNewRadioButton.setBackground(Color.WHITE);
 		rdbtnNewRadioButton.setBounds(614, 388, 93, 21);
@@ -184,6 +231,11 @@ public class Register extends JFrame {
 
 		// Second radio button (Project Owner)
 		JRadioButton rdbtnProjectOwner = new JRadioButton("Project Owner");
+		rdbtnProjectOwner.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				role = false;
+			}
+		});
 		rdbtnProjectOwner.setFont(new Font("Tahoma", Font.BOLD, 14));
 		rdbtnProjectOwner.setBackground(Color.WHITE);
 		rdbtnProjectOwner.setBounds(748, 388, 131, 21);
@@ -197,5 +249,37 @@ public class Register extends JFrame {
 		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel_2_1_1.setBounds(616, 360, 61, 22);
 		panel.add(lblNewLabel_2_1_1);
+		
+		
 	}
+	
+	
+	private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {
+		try{
+			System.out.println("test2");
+//			String thisRole = role ? "INVESTOR" : "PROJECTOWNER";
+//			
+//            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rs_token", "root", "");
+//            
+//            try (Statement statement = conn.createStatement()) {
+//                String checkExist = "SELECT NAME FROM ACCOUNT WHERE USERNAME = '" + txtUserName.getText() + "'";
+//                ResultSet resultSet = statement.executeQuery(checkExist);
+//                if (resultSet.next()) {
+////                    return "Username already exists!";
+//                }
+//            } 
+//
+//            try (Statement statement = conn.createStatement()) {
+//                String script = "INSERT INTO " + thisRole + " (USERNAME, PASSWORD, TYPE, AGE, EMAIL, PHONE, GENDER) " +
+//                                "VALUES ('" + txtUserName.getText() + "', '" + txtPassword.getText() + "')";
+//                statement.executeUpdate(script);
+////                return "Register Successful!";
+//            } 
+        }catch(Exception ex){
+        	JOptionPane.showMessageDialog(null, "Username or Password Error! ", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } 
+	}
+	
+	
+	
 }

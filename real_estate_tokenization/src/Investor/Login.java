@@ -148,7 +148,7 @@ public class Login extends JFrame {
 						Market info = new Market();
 						info.setVisible(true);
 		            }else{
-		                System.out.println("Not Found!");
+		            	JOptionPane.showMessageDialog(null, "Invalid User Name or Password! ", "Error", JOptionPane.INFORMATION_MESSAGE);
 		            }
 		        }catch(Exception ex){
 		        	JOptionPane.showMessageDialog(null, "Username or Password Error! ", "Error", JOptionPane.INFORMATION_MESSAGE);
