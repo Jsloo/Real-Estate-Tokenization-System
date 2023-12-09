@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
+import Controller.InvestorController;
 import Investor.Login;
 import Investor.Market;
 import Project_Owner.Login_Owner;
@@ -143,29 +144,27 @@ public class Register extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				try{
 					System.out.println("test1");
-//					String thisRole;
-//					if (role == true) {
-//						thisRole = "INVESTOR";
-//					}else {
-//						thisRole = "PROJECTOWNER";
-//					}
-//					
-//		            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rs_token", "root", "");
-//		            
-//		            try (Statement statement = conn.createStatement()) {
-//		                String checkExist = "SELECT NAME FROM ACCOUNT WHERE USERNAME = '" + txtUserName.getText() + "'";
-//		                ResultSet resultSet = statement.executeQuery(checkExist);
-//		                if (resultSet.next()) {
-////		                    return "Username already exists!";
-//		                }
-//		            } 
-//
-//		            try (Statement statement = conn.createStatement()) {
-//		                String script = "INSERT INTO " + thisRole + " (USERNAME, PASSWORD, TYPE, AGE, EMAIL, PHONE, GENDER) " +
-//		                                "VALUES ('" + txtUserName.getText() + "', '" + txtPassword.getText() + "')";
-//		                statement.executeUpdate(script);
-////		                return "Register Successful!";
-//		            } 
+					InvestorController con = new InvestorController();
+					String msg = con.register(role, txtUserName.getText(), txtPassword.getText());
+					if(msg.equals("exists")) {
+						JOptionPane.showMessageDialog(null, "Username already exists! ", "Error", JOptionPane.INFORMATION_MESSAGE);
+					}else if(msg.equals("error")) {
+						JOptionPane.showMessageDialog(null, "Register Succesful! ", "Success", JOptionPane.INFORMATION_MESSAGE);
+					}else {
+						JOptionPane.showMessageDialog(null, msg, "Success", JOptionPane.INFORMATION_MESSAGE);
+						if (role) {
+							setVisible(false);
+							Login info = new Login();
+							info.setVisible(true);
+						}else {
+							setVisible(false);
+							Login_Owner info = new Login_Owner();
+							info.setVisible(true);
+
+						}
+						
+					}
+					
 		        }catch(Exception ex){
 		        	JOptionPane.showMessageDialog(null, "Username or Password Error! ", "Error", JOptionPane.INFORMATION_MESSAGE);
 		        } 

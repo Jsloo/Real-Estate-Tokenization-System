@@ -7,12 +7,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
 import Both.Register;
+import Controller.InvestorController;
+import Controller.OwnerController;
 import Investor.Login;
 import Investor.Market;
 
@@ -24,8 +28,8 @@ import java.awt.event.MouseEvent;
 public class Login_Owner extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField passwordField;
+	private JTextField txtUserName;
+	private JPasswordField txtPassword;
 
 	/**
 	 * Launch the application.
@@ -98,21 +102,21 @@ public class Login_Owner extends JFrame {
 		lblNewLabel_2.setBounds(616, 260, 102, 22);
 		panel.add(lblNewLabel_2);
 		
-		textField = new JTextField();
-		textField.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
-		textField.setBounds(616, 292, 263, 34);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtUserName = new JTextField();
+		txtUserName.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
+		txtUserName.setBounds(616, 292, 263, 34);
+		panel.add(txtUserName);
+		txtUserName.setColumns(10);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Password");
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel_2_1.setBounds(616, 347, 102, 22);
 		panel.add(lblNewLabel_2_1);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
-		passwordField.setBounds(616, 370, 263, 34);
-		panel.add(passwordField);
+		txtPassword = new JPasswordField();
+		txtPassword.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.PINK));
+		txtPassword.setBounds(616, 370, 263, 34);
+		panel.add(txtPassword);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.addMouseListener(new MouseAdapter() {
@@ -128,9 +132,18 @@ public class Login_Owner extends JFrame {
 		    }
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				ICO info = new ICO();
-				info.setVisible(true);
+				OwnerController con = new OwnerController();
+				String msg = con.login(txtUserName.getText(), txtPassword.getText());
+				if(msg.equals("Success")) {
+					JOptionPane.showMessageDialog(null, "Login Successful! ", "Success", JOptionPane.INFORMATION_MESSAGE);
+					setVisible(false);
+					MyToken info = new MyToken();
+					info.setVisible(true);
+				}else if(msg.equals("error")) {
+					JOptionPane.showMessageDialog(null, "Invalid User Name or Password! ", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, msg, "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		panel_2.setBackground(Color.WHITE);

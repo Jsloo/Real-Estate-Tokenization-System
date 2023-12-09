@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
 import Both.Register;
+import Controller.InvestorController;
 import Project_Owner.Login_Owner;
 
 import javax.swing.JPasswordField;
@@ -133,27 +134,18 @@ public class Login extends JFrame {
 		    }
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				try{
-		            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rs_token", "root", "");
-		            
-		            Statement t = (Statement) conn.createStatement();
-
-		            String script = "SELECT * from INVESTOR where Name = '" + txtUserName.getText() + "' and PASSWORD = '" + txtPassword.getText() + "'";
-
-		            ResultSet rs = ((java.sql.Statement) t).executeQuery(script);
-
-		            if(rs.next()){
-		            	JOptionPane.showMessageDialog(null, "Login Successful! ", "Success", JOptionPane.INFORMATION_MESSAGE);
-		            	setVisible(false);
-						Market info = new Market();
-						info.setVisible(true);
-		            }else{
-		            	JOptionPane.showMessageDialog(null, "Invalid User Name or Password! ", "Error", JOptionPane.INFORMATION_MESSAGE);
-		            }
-		        }catch(Exception ex){
-		        	JOptionPane.showMessageDialog(null, "Username or Password Error! ", "Error", JOptionPane.INFORMATION_MESSAGE);
-		        } 
-				
+				InvestorController con = new InvestorController();
+				String msg = con.login(txtUserName.getText(), txtPassword.getText());
+				if(msg.equals("Success")) {
+					JOptionPane.showMessageDialog(null, "Login Successful! ", "Success", JOptionPane.INFORMATION_MESSAGE);
+					setVisible(false);
+					Market info = new Market();
+					info.setVisible(true);
+				}else if(msg.equals("error")) {
+					JOptionPane.showMessageDialog(null, "Invalid User Name or Password! ", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, msg, "Success", JOptionPane.INFORMATION_MESSAGE);
+				}	
 			}
 		});
 		btnLogin.setBackground(Color.WHITE);
