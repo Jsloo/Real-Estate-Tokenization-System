@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class OwnerController {
+	public static String port = Config.mysql_port;
+	
 	public String login(String username,String password) {
 		try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rs_token", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port+ "/rs_token", "root", "");
             
             Statement t = (Statement) conn.createStatement();
 

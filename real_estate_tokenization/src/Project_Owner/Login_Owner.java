@@ -145,7 +145,7 @@ public class Login_Owner extends JFrame {
 					JOptionPane.showMessageDialog(null, msg, "Success", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
-		});
+		}); 
 		panel_2.setBackground(Color.WHITE);
 		panel_2.setBorder(new LineBorder(Color.PINK, 2, true));
 		panel_2.setBounds(714, 456, 93, 34);

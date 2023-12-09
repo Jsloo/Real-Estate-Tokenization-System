@@ -7,9 +7,11 @@ import java.sql.Statement;
 
 
 public class InvestorController {
+	Config n = new Config();
+	public static String port = Config.mysql_port;
 	public String login(String username,String password) {
 		try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rs_token", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port+ "/rs_token", "root", "");
             
             Statement t = (Statement) conn.createStatement();
 
@@ -37,7 +39,7 @@ public class InvestorController {
 				thisRole = "PROJECTOWNER";
 			}
 			
-	        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rs_token", "root", "");
+	        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port+ "/rs_token", "root", "");
 	        
 	        try (Statement statement = conn.createStatement()) {
 	            String checkExist = "SELECT NAME FROM  " + thisRole + "  WHERE NAME = '" + username + "'";
