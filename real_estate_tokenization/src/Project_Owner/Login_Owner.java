@@ -30,6 +30,8 @@ public class Login_Owner extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUserName;
 	private JPasswordField txtPassword;
+	private JLabel errorUserName;
+	private JLabel errorPassword;
 
 	/**
 	 * Launch the application.
@@ -132,17 +134,22 @@ public class Login_Owner extends JFrame {
 		    }
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				OwnerController con = new OwnerController();
-				String msg = con.login(txtUserName.getText(), txtPassword.getText());
-				if(msg.equals("Success")) {
-					JOptionPane.showMessageDialog(null, "Login Successful! ", "Success", JOptionPane.INFORMATION_MESSAGE);
-					setVisible(false);
-					MyToken info = new MyToken();
-					info.setVisible(true);
-				}else if(msg.equals("error")) {
-					JOptionPane.showMessageDialog(null, "Invalid User Name or Password! ", "Error", JOptionPane.INFORMATION_MESSAGE);
-				}else {
-					JOptionPane.showMessageDialog(null, msg, "Success", JOptionPane.INFORMATION_MESSAGE);
+				try {
+					OwnerController con = new OwnerController();
+					validateFields();
+					String msg = con.login(txtUserName.getText(), txtPassword.getText());
+					if(msg.equals("Success")) {
+						JOptionPane.showMessageDialog(null, "Login Successful! ", "Success", JOptionPane.INFORMATION_MESSAGE);
+						setVisible(false);
+						MyToken info = new MyToken();
+						info.setVisible(true);
+					}else if(msg.equals("Error")) {
+						JOptionPane.showMessageDialog(null, "Invalid User Name or Password! ", "Error", JOptionPane.INFORMATION_MESSAGE);
+					}else {
+						JOptionPane.showMessageDialog(null, msg, "Success", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}catch(Exception ex) {
+					
 				}
 			}
 		}); 
@@ -216,5 +223,44 @@ public class Login_Owner extends JFrame {
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.ITALIC, 13));
 		lblNewLabel_7.setBounds(634, 502, 55, 13);
 		panel.add(lblNewLabel_7);
+		
+		errorUserName = new JLabel("* User Name is Required.");
+		errorUserName.setForeground(new Color(255, 0, 0));
+		errorUserName.setBounds(756, 267, 148, 14);
+		errorUserName.setVisible(false);
+		panel.add(errorUserName);
+		
+		errorPassword = new JLabel("* Password is Required.");
+		errorPassword.setForeground(Color.RED);
+		errorPassword.setBounds(756, 354, 148, 14);
+		errorPassword.setVisible(false);
+		panel.add(errorPassword);
 	}
+	
+	public void validateFields() throws Exception {
+        boolean hasError = false;
+        String username = txtUserName.getText();
+        String password = txtPassword.getText();
+
+		//name
+        if (username.isEmpty()) {
+            errorUserName.setVisible(true);  
+            hasError = true;
+        }else{
+            errorUserName.setVisible(false); 
+        }
+        
+
+		//pass n
+        if (password.isEmpty()) {
+            errorPassword.setVisible(true);
+            hasError = true;
+        }else{
+            errorPassword.setVisible(false); 
+        }
+
+        if(hasError){
+            throw new Exception("");
+        }
+    }
 }

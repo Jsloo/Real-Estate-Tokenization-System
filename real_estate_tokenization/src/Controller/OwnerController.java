@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 public class OwnerController {
 	public static String port = Config.mysql_port;
+	public static Integer userId = 0;
 	
 	public String login(String username,String password) {
 		try{
@@ -19,6 +20,7 @@ public class OwnerController {
             ResultSet rs = ((java.sql.Statement) t).executeQuery(script);
 
             if(rs.next()){
+            	userId = rs.getInt("ID");
             	return "Success";
             	
             }else{

@@ -7,8 +7,9 @@ import java.sql.Statement;
 
 
 public class InvestorController {
-	Config n = new Config();
+
 	public static String port = Config.mysql_port;
+	public static Integer userId = 0;
 	public String login(String username,String password) {
 		try{
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port+ "/rs_token", "root", "");
@@ -20,6 +21,7 @@ public class InvestorController {
             ResultSet rs = ((java.sql.Statement) t).executeQuery(script);
 
             if(rs.next()){
+            	userId = rs.getInt("ID");
             	return "Success";
             	
             }else{

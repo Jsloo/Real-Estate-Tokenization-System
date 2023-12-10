@@ -41,6 +41,10 @@ public class Register extends JFrame {
 	private JTextField txtUserName;
 	private JPasswordField txtPassword;
 	private boolean role = false;
+	private JLabel errorUserName;
+	private JLabel errorPassword;
+	private JLabel errorRole;
+	private ButtonGroup buttonGroup;
 	/**
 	 * Launch the application.
 	 */
@@ -143,15 +147,13 @@ public class Register extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try{
-					System.out.println("test1");
+					validateFields();
 					InvestorController con = new InvestorController();
 					String msg = con.register(role, txtUserName.getText(), txtPassword.getText());
 					if(msg.equals("exists")) {
 						JOptionPane.showMessageDialog(null, "Username already exists! ", "Error", JOptionPane.INFORMATION_MESSAGE);
-					}else if(msg.equals("error")) {
-						JOptionPane.showMessageDialog(null, "Register Succesful! ", "Success", JOptionPane.INFORMATION_MESSAGE);
-					}else {
-						JOptionPane.showMessageDialog(null, msg, "Success", JOptionPane.INFORMATION_MESSAGE);
+					}else if(msg.equals("success")) {
+						JOptionPane.showMessageDialog(null, "Register Succesful! " , "Success", JOptionPane.INFORMATION_MESSAGE);
 						if (role) {
 							setVisible(false);
 							Login info = new Login();
@@ -160,13 +162,12 @@ public class Register extends JFrame {
 							setVisible(false);
 							Login_Owner info = new Login_Owner();
 							info.setVisible(true);
-
-						}
-						
+						}	
+					}else {
+						JOptionPane.showMessageDialog(null, msg , "Success", JOptionPane.INFORMATION_MESSAGE);
 					}
-					
 		        }catch(Exception ex){
-		        	JOptionPane.showMessageDialog(null, "Username or Password Error! ", "Error", JOptionPane.INFORMATION_MESSAGE);
+		        	
 		        } 
 			}
 		});
@@ -214,7 +215,7 @@ public class Register extends JFrame {
 		panel.add(lblNewLabel_7);
 		
 		// Create a ButtonGroup to group the radio buttons
-		ButtonGroup buttonGroup = new ButtonGroup();
+		buttonGroup = new ButtonGroup();
 
 		// First radio button (Investor)
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Investor");
@@ -249,36 +250,58 @@ public class Register extends JFrame {
 		lblNewLabel_2_1_1.setBounds(616, 360, 61, 22);
 		panel.add(lblNewLabel_2_1_1);
 		
+		errorUserName = new JLabel("* User Name is Required.");
+		errorUserName.setForeground(new Color(255, 0, 0));
+		errorUserName.setBounds(766, 215, 148, 14);
+		errorUserName.setVisible(false);
+		panel.add(errorUserName);
+		
+		errorPassword = new JLabel("* Password is Required.");
+		errorPassword.setForeground(Color.RED);
+		errorPassword.setBounds(766, 291, 148, 14);
+		errorPassword.setVisible(false);
+		panel.add(errorPassword);
+		
+		errorRole = new JLabel("* Role is Required.");
+		errorRole.setForeground(Color.RED);
+		errorRole.setBounds(790, 367, 148, 14);
+		errorRole.setVisible(false);
+		panel.add(errorRole);
 		
 	}
-	
-	
-	private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {
-		try{
-			System.out.println("test2");
-//			String thisRole = role ? "INVESTOR" : "PROJECTOWNER";
-//			
-//            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rs_token", "root", "");
-//            
-//            try (Statement statement = conn.createStatement()) {
-//                String checkExist = "SELECT NAME FROM ACCOUNT WHERE USERNAME = '" + txtUserName.getText() + "'";
-//                ResultSet resultSet = statement.executeQuery(checkExist);
-//                if (resultSet.next()) {
-////                    return "Username already exists!";
-//                }
-//            } 
-//
-//            try (Statement statement = conn.createStatement()) {
-//                String script = "INSERT INTO " + thisRole + " (USERNAME, PASSWORD, TYPE, AGE, EMAIL, PHONE, GENDER) " +
-//                                "VALUES ('" + txtUserName.getText() + "', '" + txtPassword.getText() + "')";
-//                statement.executeUpdate(script);
-////                return "Register Successful!";
-//            } 
-        }catch(Exception ex){
-        	JOptionPane.showMessageDialog(null, "Username or Password Error! ", "Error", JOptionPane.INFORMATION_MESSAGE);
-        } 
-	}
-	
-	
+	public void validateFields() throws Exception {
+        boolean hasError = false;
+        String username = txtUserName.getText();
+        String password = txtPassword.getText();
+
+		//name
+        if (username.isEmpty()) {
+            errorUserName.setVisible(true);  
+            hasError = true;
+        }else{
+            errorUserName.setVisible(false); 
+        }
+        
+
+		//pass n
+        if (password.isEmpty()) {
+            errorPassword.setVisible(true);
+            hasError = true;
+        }else{
+            errorPassword.setVisible(false); 
+        }
+        
+        //role
+        if (buttonGroup.getSelection() == null) {
+            errorRole.setVisible(true);
+            hasError = true;
+        } else {
+            errorRole.setVisible(false);
+        }
+
+        if(hasError){
+            throw new Exception("");
+        }
+    }
 	
 }
