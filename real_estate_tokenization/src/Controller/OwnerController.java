@@ -10,7 +10,7 @@ public class OwnerController {
 	
 	public String login(String username,String password) {
 		try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port+ "/rs_token", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port + "/rs_token", "root", "");
             
             Statement t = (Statement) conn.createStatement();
 

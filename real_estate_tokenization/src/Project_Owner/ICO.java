@@ -26,6 +26,7 @@ import javax.swing.JTree;
 import javax.swing.JScrollBar;
 import javax.swing.JSeparator;
 import javax.swing.JTextPane;
+import java.awt.FlowLayout;
 
 public class ICO extends JFrame {
 
@@ -190,5 +191,32 @@ public class ICO extends JFrame {
 		textPane.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		textPane.setBounds(687, 213, 195, 116);
 		panel_1.add(textPane);
+		
+		JPanel panel_2_3_2 = new JPanel();
+		panel_2_3_2.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+		        // Set the font to bold
+				panel_2_3_2.setBackground(new java.awt.Color(204,204,204));
+		    }
+		    
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		    	panel_2_3_2.setBackground(new java.awt.Color(255,255,255));
+		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				new MyToken().setVisible(true);
+			}
+		});
+		panel_2_3_2.setBorder(new LineBorder(Color.PINK, 2, true));
+		panel_2_3_2.setBackground(Color.WHITE);
+		panel_2_3_2.setBounds(800, 55, 143, 34);
+		panel.add(panel_2_3_2);
+		panel_2_3_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblNewLabel_3_4_2 = new JLabel("Back");
+		lblNewLabel_3_4_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		panel_2_3_2.add(lblNewLabel_3_4_2);
 	}
 }
