@@ -19,7 +19,7 @@ public class MyKeyPair {
 	public static PublicKey publicKey;
 	public static PrivateKey privateKey;
 	
-	private MyKeyPair() {
+	public MyKeyPair() {
 		try {
 			keygen = KeyPairGenerator.getInstance(ALGORITHM);
 		}catch(Exception e) {
@@ -60,14 +60,13 @@ public class MyKeyPair {
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void genKeyPair(String id, String role) {
 		MyKeyPair.create();
 		byte[] publicKey = MyKeyPair.getPublicKey().getEncoded();
 		byte[] privateKey = MyKeyPair.getPrivateKey().getEncoded();
 		
-		System.out.println("Public Key= "+ Base64.getEncoder().encodeToString(publicKey));
-		System.out.println("Private Key= "+ Base64.getEncoder().encodeToString(privateKey));
-		MyKeyPair.put(publicKey, "MyKeyPair/PublicKey");
-		MyKeyPair.put(privateKey, "MyKeyPair/PrivateKey");
+		MyKeyPair.put(publicKey, "KeyPair/" + role +"/"+ id + "/PublicKey");
+		MyKeyPair.put(privateKey, "KeyPair/" + role +"/"+ id + "/PrivateKey");
 	}
+	
 }

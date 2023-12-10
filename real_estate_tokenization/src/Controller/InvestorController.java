@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
+import PairKey.MyKeyPair;
 
 public class InvestorController {
 
@@ -54,7 +54,17 @@ public class InvestorController {
 	        try (Statement statement = conn.createStatement()) {
 	            String script = "INSERT INTO " + thisRole + " (NAME, PASSWORD) " +
 	                            "VALUES ('" + username + "', '" + password + "')";
-	            statement.executeUpdate(script);
+	            statement.executeUpdate(script, Statement.RETURN_GENERATED_KEYS);
+	            
+	            // Get the generated keys
+	            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+	                if (generatedKeys.next()) {
+	                    // Get the value of the generated key (ID)
+	                    int generatedId = generatedKeys.getInt(1);
+	                    new MyKeyPair();
+	                    MyKeyPair.genKeyPair(Integer.toString(generatedId), thisRole);
+	                }
+	            }
 	            return "success";
 	        } 
 		}catch(Exception e) {
