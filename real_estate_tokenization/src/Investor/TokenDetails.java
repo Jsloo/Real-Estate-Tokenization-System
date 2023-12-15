@@ -36,13 +36,15 @@ import java.awt.FlowLayout;
 public class TokenDetails extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField state;
+	private JTextField city;
+	private JTextField quantity;
+	private JTextField name;
+	private JTextField totalToken;
+	private JTextField zip;
+	private JTextField price;
+	private JTextPane  address;
+
 
 	/**
 	 * Launch the application.
@@ -64,7 +66,7 @@ public class TokenDetails extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TokenDetails(ArrayList<String[]>  details) {
+	public TokenDetails(ArrayList<Object[]>  details) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 563);
 		contentPane = new JPanel();
@@ -96,8 +98,8 @@ public class TokenDetails extends JFrame {
 		lblNewLabel.setBounds(25, 10, 73, 36);
 		panel_1.add(lblNewLabel);
 		
-		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.addMouseListener(new MouseAdapter() {
+		JLabel image = new JLabel("");
+		image.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
@@ -110,13 +112,13 @@ public class TokenDetails extends JFrame {
 		            String path =selectedFile.getAbsolutePath();
 		            ImageIcon imageIcon = new ImageIcon(path);
 		            Image img =imageIcon.getImage().getScaledInstance(250,250,Image.SCALE_SMOOTH);
-		            lblNewLabel_2.setIcon(new ImageIcon(img));
+		            image.setIcon(new ImageIcon(img));
 		        }
 			}
 		});
-		lblNewLabel_2.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		lblNewLabel_2.setBounds(253, 10, 195, 154);
-		panel_1.add(lblNewLabel_2);
+		image.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		image.setBounds(253, 10, 195, 154);
+		panel_1.add(image);
 		
 		JLabel lblName = new JLabel("Name");
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -133,26 +135,26 @@ public class TokenDetails extends JFrame {
 		lblNumberOfToken_1.setBounds(516, 114, 162, 36);
 		panel_1.add(lblNumberOfToken_1);
 		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		textField.setBounds(253, 185, 195, 24);
-		panel_1.add(textField);
-		textField.setColumns(10);
+		state = new JTextField();
+		state.setEditable(false);
+		state.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		state.setBounds(253, 185, 195, 24);
+		panel_1.add(state);
+		state.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
-		textField_1.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		textField_1.setBounds(253, 222, 195, 24);
-		panel_1.add(textField_1);
+		city = new JTextField();
+		city.setEditable(false);
+		city.setColumns(10);
+		city.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		city.setBounds(253, 222, 195, 24);
+		panel_1.add(city);
 		
-		textField_2 = new JTextField();
-		textField_2.setBackground(new Color(255, 228, 225));
-		textField_2.setColumns(10);
-		textField_2.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.BLACK));
-		textField_2.setBounds(688, 212, 195, 24);
-		panel_1.add(textField_2);
+		quantity = new JTextField();
+		quantity.setBackground(new Color(255, 228, 225));
+		quantity.setColumns(10);
+		quantity.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.BLACK));
+		quantity.setBounds(688, 212, 195, 24);
+		panel_1.add(quantity);
 		
 		JButton btnNewButton = new JButton("Sell");
 		btnNewButton.setBackground(Color.WHITE);
@@ -165,12 +167,12 @@ public class TokenDetails extends JFrame {
 		lblState.setBounds(25, 175, 132, 36);
 		panel_1.add(lblState);
 		
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		textField_3.setColumns(10);
-		textField_3.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		textField_3.setBounds(688, 63, 195, 24);
-		panel_1.add(textField_3);
+		name = new JTextField();
+		name.setEditable(false);
+		name.setColumns(10);
+		name.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		name.setBounds(688, 63, 195, 24);
+		panel_1.add(name);
 		
 		JLabel lblName_1_1 = new JLabel("City");
 		lblName_1_1.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -187,37 +189,37 @@ public class TokenDetails extends JFrame {
 		lblName_1_1_1_1.setBounds(25, 293, 132, 36);
 		panel_1.add(lblName_1_1_1_1);
 		
-		textField_4 = new JTextField();
-		textField_4.setEditable(false);
-		textField_4.setColumns(10);
-		textField_4.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		textField_4.setBounds(687, 114, 195, 24);
-		panel_1.add(textField_4);
+		totalToken = new JTextField();
+		totalToken.setEditable(false);
+		totalToken.setColumns(10);
+		totalToken.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		totalToken.setBounds(687, 114, 195, 24);
+		panel_1.add(totalToken);
 		
-		textField_5 = new JTextField();
-		textField_5.setEditable(false);
-		textField_5.setColumns(10);
-		textField_5.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		textField_5.setBounds(253, 259, 195, 24);
-		panel_1.add(textField_5);
+		zip = new JTextField();
+		zip.setEditable(false);
+		zip.setColumns(10);
+		zip.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		zip.setBounds(253, 259, 195, 24);
+		panel_1.add(zip);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setEditable(false);
-		textPane.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		textPane.setBounds(253, 299, 195, 81);
-		panel_1.add(textPane);
+		address = new JTextPane();
+		address.setEditable(false);
+		address.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		address.setBounds(253, 299, 195, 81);
+		panel_1.add(address);
 		
 		JLabel lblRm = new JLabel("RM");
 		lblRm.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblRm.setBounds(687, 262, 42, 36);
 		panel_1.add(lblRm);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.BLACK));
-		textField_6.setBackground(new Color(255, 228, 225));
-		textField_6.setBounds(720, 262, 163, 24);
-		panel_1.add(textField_6);
+		price = new JTextField();
+		price.setColumns(10);
+		price.setBorder(new MatteBorder(0, 0, 4, 0, (Color) Color.BLACK));
+		price.setBackground(new Color(255, 228, 225));
+		price.setBounds(720, 262, 163, 24);
+		panel_1.add(price);
 		
 		JLabel lblSellingTokenAmount = new JLabel("Selling Quantity");
 		lblSellingTokenAmount.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -263,23 +265,60 @@ public class TokenDetails extends JFrame {
 		lblNewLabel_3_4_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2_3_2.add(lblNewLabel_3_4_2);
 		
-		for (String[] detail : details) {
+		for (Object[] detail : details) {
             if (detail[0].equals("sell")) {
 				lblSellingTokenAmount.setText("Selling Quantity");
 				lblNumberOfToken.setText("Selling Price");
-				textField_6.setEnabled(true);
+				price.setEnabled(true);
 				back = true;
 				btnNewButton.setText("Sell");
             } 
             if (detail[0].equals("buy")) {
             	lblSellingTokenAmount.setText("Buying Quantity");
             	lblNumberOfToken.setText("Price");
-            	textField_6.setEnabled(false);
+            	price.setEnabled(false);
             	back = false;
             	btnNewButton.setText("Buy");
+
             }
         }
+		setDetails(details);
 	}
 	
+	public void setDetails(ArrayList<Object[]>  details) {
+		for (int i = 0; i < details.size(); i++) {
+		    Object[] detail = details.get(i);
+
+		    // Print only the second array
+		    if (i == 0) {
+		        
+		        if (detail.length > 1) {
+		            name.setText(String.valueOf(detail[1])); 
+		            state.setText(String.valueOf(detail[2])); 
+		            city.setText(String.valueOf(detail[3])); 
+		            zip.setText(String.valueOf(detail[4])); 
+		            address.setText(String.valueOf(detail[5])); 
+		            totalToken.setText(String.valueOf(detail[6])); 
+		            quantity.setText(""); 
+		            price.setText(""); 
+		            
+		        }
+		    }
+		    
+//		    if(i==1) {
+//		    	System.out.println(detail[0]);
+//		    	if ("sell".equals(detail[0])) {
+//	                System.out.println("sell");
+//	                quantity.setText(String.valueOf(detail[6])); 
+//	                price.setText(String.valueOf(detail[7])); 
+//	            } 
+//	            if ("buy".equals(detail[0])) {
+//	                System.out.println("buy");
+//	                quantity.setText(String.valueOf(detail[6]));
+//	                price.setText(""); 
+//	            }
+//		    }
+		}
+	}
 
 }
