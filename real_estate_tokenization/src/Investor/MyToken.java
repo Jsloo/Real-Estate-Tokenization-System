@@ -119,7 +119,7 @@ public class MyToken extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
-				ArrayList<String[]> details = new ArrayList<>();
+				ArrayList<Object[]> details = new ArrayList<>();
 				
 				details.add(selectedDetails);
 				String[] sellDetails = {"sell"};
