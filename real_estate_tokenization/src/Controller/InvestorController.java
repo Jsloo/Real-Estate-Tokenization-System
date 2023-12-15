@@ -15,7 +15,7 @@ public class InvestorController {
 	public static Integer userId = 0;
 	public String login(String username,String password) {
 		try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port+ "/rs_token", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port+ "/rs_token", "root", "root");
             
             Statement t = (Statement) conn.createStatement();
 
@@ -44,7 +44,7 @@ public class InvestorController {
 				thisRole = "PROJECTOWNER";
 			}
 			
-	        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port+ "/rs_token", "root", "");
+	        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port+ "/rs_token", "root", "root");
 	        
 	        try (Statement statement = conn.createStatement()) {
 	            String checkExist = "SELECT NAME FROM  " + thisRole + "  WHERE NAME = '" + username + "'";
@@ -80,7 +80,7 @@ public class InvestorController {
         List<Object[]> realEstateList = new ArrayList<>();
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port + "/rs_token", "root", "");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + port + "/rs_token", "root", "root");
             Statement statement = conn.createStatement();
 
             String script = "SELECT * FROM RealEstate";
