@@ -23,12 +23,4 @@ public class KeyAccess {
 		return KeyFactory.getInstance("RSA").generatePrivate(spec);
 	}
 	
-	public static void main(String[] args) throws Exception{
-		PublicKey pubKey = KeyAccess.getPublicKey("MyKeyPair/PublicKey");
-		PrivateKey privKey = KeyAccess.getPrivateKey("MyKeyPair/PrivateKey");
-		
-		System.out.println("Public Key= "+ Base64.getEncoder().encodeToString(pubKey.getEncoded()));
-		System.out.println("Private Key= "+ Base64.getEncoder().encodeToString(privKey.getEncoded()));
-
-	}
 }

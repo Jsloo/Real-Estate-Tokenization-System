@@ -1,4 +1,4 @@
-package Investor;
+package Both;
 
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
@@ -15,6 +15,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Controller.InvestorController;
+import Controller.OwnerController;
+import Investor.Market;
+import Project_Owner.MyToken;
 
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -36,24 +39,32 @@ import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MyToken extends JFrame {
+public class TransactionHistory extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField currentPage;
-	private JLabel name1;
-	private JLabel name2;
-	private JLabel name3;
-	private JLabel name4;
-	private JLabel quantity1;
-	private JLabel quantity2;
-	private JLabel quantity3;
-	private JLabel quantity4;
+	private JLabel from1;
+	private JLabel from2;
+	private JLabel from3;
+	private JLabel from4;
+	private JLabel to1;
+	private JLabel to2;
+	private JLabel to3;
+	private JLabel to4;
+	private JLabel rsName1;
+	private JLabel rsName2;
+	private JLabel rsName3;
+	private JLabel rsName4;
+	private JLabel amount1;
+	private JLabel amount2;
+	private JLabel amount3;
+	private JLabel amount4;
+	private JLabel market1;
+	private JLabel market2;
+	private JLabel market3;
+	private JLabel market4;
 	private List<String[]> tokenList;
     private int currentIndex;
-    private JButton btnDetails1;
-    private JButton btnDetails2;
-    private JButton btnDetails3;
-    private JButton btnDetails4;
     private JPanel mtPanel1;
     private JPanel mtPanel2;
     private JPanel mtPanel3;
@@ -65,6 +76,7 @@ public class MyToken extends JFrame {
     public static String[] details4;
     public Integer currentPageIndex=  1;
     public Integer remaining;
+    public String type;
 	/**
 	 * Launch the application.
 	 */
@@ -73,7 +85,7 @@ public class MyToken extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MyToken frame = new MyToken();
+					TransactionHistory frame = new TransactionHistory("investor");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -87,7 +99,7 @@ public class MyToken extends JFrame {
 	 */
 	
 	
-	public MyToken() {
+	public TransactionHistory(String type) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 563);
 		contentPane = new JPanel();
@@ -102,9 +114,9 @@ public class MyToken extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblRealEstateToken = new JLabel("My Token");
+		JLabel lblRealEstateToken = new JLabel("Transaction History");
 		lblRealEstateToken.setFont(new Font("Tahoma", Font.BOLD, 36));
-		lblRealEstateToken.setBounds(40, 27, 192, 38);
+		lblRealEstateToken.setBounds(40, 27, 382, 38);
 		panel.add(lblRealEstateToken);
 		
 		JPanel panel_1 = new JPanel();
@@ -117,195 +129,126 @@ public class MyToken extends JFrame {
 		mtPanel1 = new JPanel();
 		mtPanel1.setLayout(null);
 		mtPanel1.setBackground(Color.WHITE);
-		mtPanel1.setBounds(42, 70, 780, 58);
+		mtPanel1.setBounds(42, 70, 819, 58);
 		panel_1.add(mtPanel1);
 		
-		name1 = new JLabel("Name");
-		name1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		name1.setBounds(74, 21, 242, 19);
-		mtPanel1.add(name1);
+		from1 = new JLabel("Name");
+		from1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		from1.setBounds(21, 21, 181, 19);
+		mtPanel1.add(from1);
 		
-		quantity1 = new JLabel("Quantity");
-		quantity1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		quantity1.setBounds(343, 21, 74, 19);
-		mtPanel1.add(quantity1);
+		to1 = new JLabel("to");
+		to1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		to1.setBounds(212, 21, 160, 19);
+		mtPanel1.add(to1);
 		
-		JLabel lblNewLabel_3_1 = new JLabel("No");
-		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3_1.setBounds(11, 21, 53, 19);
-		mtPanel1.add(lblNewLabel_3_1);
+		amount1 = new JLabel("Amount");
+		amount1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		amount1.setBounds(613, 21, 74, 19);
+		mtPanel1.add(amount1);
 		
-		JPanel btnDetails1 = new JPanel();
-		btnDetails1.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-		        // Set the font to bold
-				btnDetails1.setBackground(new java.awt.Color(204,204,204));
-		    }
-		    
-		    @Override
-		    public void mouseExited(MouseEvent e) {
-		    	btnDetails1.setBackground(new java.awt.Color(255,255,255));
-		    }
-			@Override
-			public void mouseClicked(MouseEvent e) {	
-				setVisible(false);
-				new TokenDetails(details1,"second","sell").setVisible(true);
-			}
-		});
-		btnDetails1.setBorder(new LineBorder(Color.PINK, 2, true));
-		btnDetails1.setBackground(Color.WHITE);
-		btnDetails1.setBounds(674, 10, 96, 34);
-		mtPanel1.add(btnDetails1);
-		btnDetails1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		market1 = new JLabel("Market");
+		market1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		market1.setBounds(735, 21, 74, 19);
+		mtPanel1.add(market1);
 		
-		JLabel lblNewLabel_3_4 = new JLabel("Details");
-		
-		lblNewLabel_3_4.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnDetails1.add(lblNewLabel_3_4);
+		rsName1 = new JLabel("RS Name");
+		rsName1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		rsName1.setBounds(398, 21, 141, 19);
+		mtPanel1.add(rsName1);
 		
 		mtPanel2 = new JPanel();
 		mtPanel2.setLayout(null);
 		mtPanel2.setBackground(Color.WHITE);
-		mtPanel2.setBounds(42, 148, 780, 58);
+		mtPanel2.setBounds(42, 148, 819, 58);
 		panel_1.add(mtPanel2);
 		
-		name2 = new JLabel("Name");
-		name2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		name2.setBounds(74, 21, 242, 19);
-		mtPanel2.add(name2);
+		from2 = new JLabel("Name");
+		from2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		from2.setBounds(22, 21, 183, 19);
+		mtPanel2.add(from2);
 		
-		quantity2 = new JLabel("Quantity");
-		quantity2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		quantity2.setBounds(343, 21, 74, 19);
-		mtPanel2.add(quantity2);
+		to2 = new JLabel("to");
+		to2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		to2.setBounds(215, 21, 160, 19);
+		mtPanel2.add(to2);
 		
-		JLabel lblNewLabel_3_1_2 = new JLabel("No");
-		lblNewLabel_3_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3_1_2.setBounds(11, 21, 53, 19);
-		mtPanel2.add(lblNewLabel_3_1_2);
+		amount2 = new JLabel("Amount");
+		amount2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		amount2.setBounds(615, 21, 74, 19);
+		mtPanel2.add(amount2);
 		
-		JPanel btnDetails2 = new JPanel();
-		btnDetails2.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-		        // Set the font to bold
-				btnDetails2.setBackground(new java.awt.Color(204,204,204));
-		    }
-		    
-		    @Override
-		    public void mouseExited(MouseEvent e) {
-		    	btnDetails2.setBackground(new java.awt.Color(255,255,255));
-		    }
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				new TokenDetails(details2,"second","sell").setVisible(true);
-			}
-		});
-		btnDetails2.setBorder(new LineBorder(Color.PINK, 2, true));
-		btnDetails2.setBackground(Color.WHITE);
-		btnDetails2.setBounds(674, 10, 96, 34);
-		mtPanel2.add(btnDetails2);
-		btnDetails2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		market2 = new JLabel("Market");
+		market2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		market2.setBounds(735, 21, 74, 19);
+		mtPanel2.add(market2);
 		
-		JLabel lblNewLabel_3_4_1 = new JLabel("Details");
-		lblNewLabel_3_4_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnDetails2.add(lblNewLabel_3_4_1);
+		rsName2 = new JLabel("RS Name");
+		rsName2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		rsName2.setBounds(399, 21, 133, 19);
+		mtPanel2.add(rsName2);
 		
 		mtPanel3 = new JPanel();
 		mtPanel3.setLayout(null);
 		mtPanel3.setBackground(Color.WHITE);
-		mtPanel3.setBounds(42, 228, 780, 58);
+		mtPanel3.setBounds(42, 228, 819, 58);
 		panel_1.add(mtPanel3);
 		
-		name3 = new JLabel("Name");
-		name3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		name3.setBounds(74, 21, 242, 19);
-		mtPanel3.add(name3);
+		from3 = new JLabel("Name");
+		from3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		from3.setBounds(27, 21, 181, 19);
+		mtPanel3.add(from3);
 		
-		quantity3 = new JLabel("Quantity");
-		quantity3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		quantity3.setBounds(343, 21, 74, 19);
-		mtPanel3.add(quantity3);
+		to3 = new JLabel("to");
+		to3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		to3.setBounds(218, 21, 160, 19);
+		mtPanel3.add(to3);
 		
-		JLabel lblNewLabel_3_1_2_1 = new JLabel("No");
-		lblNewLabel_3_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3_1_2_1.setBounds(11, 21, 53, 19);
-		mtPanel3.add(lblNewLabel_3_1_2_1);
+		amount3 = new JLabel("Amount");
+		amount3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		amount3.setBounds(614, 21, 74, 19);
+		mtPanel3.add(amount3);
 		
-		JPanel btnDetails3 = new JPanel();
-		btnDetails3.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-		        // Set the font to bold
-				btnDetails3.setBackground(new java.awt.Color(204,204,204));
-		    }
-		    
-		    @Override
-		    public void mouseExited(MouseEvent e) {
-		    	btnDetails3.setBackground(new java.awt.Color(255,255,255));
-		    }
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				new TokenDetails(details3,"second","sell").setVisible(true);
-			}
-		});
-		btnDetails3.setBorder(new LineBorder(Color.PINK, 2, true));
-		btnDetails3.setBackground(Color.WHITE);
-		btnDetails3.setBounds(674, 10, 96, 34);
-		mtPanel3.add(btnDetails3);
-		btnDetails3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		market3 = new JLabel("Market");
+		market3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		market3.setBounds(735, 21, 74, 19);
+		mtPanel3.add(market3);
 		
-		JLabel lblNewLabel_3_4_1_1 = new JLabel("Details");
-		lblNewLabel_3_4_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnDetails3.add(lblNewLabel_3_4_1_1);
+		rsName3 = new JLabel("RS Name");
+		rsName3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		rsName3.setBounds(402, 21, 133, 19);
+		mtPanel3.add(rsName3);
 		
 		mtPanel4 = new JPanel();
 		mtPanel4.setLayout(null);
 		mtPanel4.setBackground(Color.WHITE);
-		mtPanel4.setBounds(42, 309, 780, 58);
+		mtPanel4.setBounds(42, 309, 819, 58);
 		panel_1.add(mtPanel4);
 		
-		name4 = new JLabel("Name");
-		name4.setFont(new Font("Tahoma", Font.BOLD, 15));
-		name4.setBounds(74, 21, 242, 19);
-		mtPanel4.add(name4);
+		from4 = new JLabel("Name");
+		from4.setFont(new Font("Tahoma", Font.BOLD, 15));
+		from4.setBounds(28, 21, 182, 19);
+		mtPanel4.add(from4);
 		
-		quantity4 = new JLabel("Quantity");
-		quantity4.setFont(new Font("Tahoma", Font.BOLD, 15));
-		quantity4.setBounds(343, 21, 74, 19);
-		mtPanel4.add(quantity4);
+		to4 = new JLabel("to");
+		to4.setFont(new Font("Tahoma", Font.BOLD, 15));
+		to4.setBounds(220, 21, 160, 19);
+		mtPanel4.add(to4);
 		
-		JLabel lblNewLabel_3_1_2_1_1 = new JLabel("No");
-		lblNewLabel_3_1_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3_1_2_1_1.setBounds(11, 21, 53, 19);
-		mtPanel4.add(lblNewLabel_3_1_2_1_1);
+		amount4 = new JLabel("Amount");
+		amount4.setFont(new Font("Tahoma", Font.BOLD, 15));
+		amount4.setBounds(611, 21, 74, 19);
+		mtPanel4.add(amount4);
 		
-		JPanel btnDetails4 = new JPanel();
-		btnDetails4.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-		        // Set the font to bold
-				btnDetails4.setBackground(new java.awt.Color(204,204,204));
-		    }
-		    
-		    @Override
-		    public void mouseExited(MouseEvent e) {
-		    	btnDetails4.setBackground(new java.awt.Color(255,255,255));
-		    }
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				new TokenDetails(details4,"second","sell").setVisible(true);
-			}
-		});
-		btnDetails4.setBorder(new LineBorder(Color.PINK, 2, true));
-		btnDetails4.setBackground(Color.WHITE);
-		btnDetails4.setBounds(674, 10, 96, 34);
-		mtPanel4.add(btnDetails4);
-		btnDetails4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		market4 = new JLabel("Market");
+		market4.setFont(new Font("Tahoma", Font.BOLD, 15));
+		market4.setBounds(735, 21, 74, 19);
+		mtPanel4.add(market4);
 		
-		JLabel lblNewLabel_3_4_1_2 = new JLabel("Details");
-		lblNewLabel_3_4_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnDetails4.add(lblNewLabel_3_4_1_2);
+		rsName4 = new JLabel("RS Name");
+		rsName4.setFont(new Font("Tahoma", Font.BOLD, 15));
+		rsName4.setBounds(406, 21, 133, 19);
+		mtPanel4.add(rsName4);
 		
 		JButton btnNewButton_3_1 = new JButton("<");
 		btnNewButton_3_1.addActionListener(new ActionListener() {
@@ -338,20 +281,30 @@ public class MyToken extends JFrame {
 		btnNewButton_3_1_1.setBounds(832, 12, 55, 21);
 		panel_1.add(btnNewButton_3_1_1);
 		
-		JLabel lblNewLabel_3_1_3 = new JLabel("No");
-		lblNewLabel_3_1_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3_1_3.setBounds(42, 40, 53, 19);
-		panel_1.add(lblNewLabel_3_1_3);
-		
-		JLabel lblNewLabel_3_3 = new JLabel("Name");
+		JLabel lblNewLabel_3_3 = new JLabel("From");
 		lblNewLabel_3_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3_3.setBounds(114, 41, 242, 19);
+		lblNewLabel_3_3.setBounds(58, 41, 242, 19);
 		panel_1.add(lblNewLabel_3_3);
 		
-		JLabel lblNewLabel_3_1_1_2 = new JLabel("Quantity");
+		JLabel lblNewLabel_3_1_1_2 = new JLabel("To");
 		lblNewLabel_3_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_3_1_1_2.setBounds(384, 45, 74, 19);
+		lblNewLabel_3_1_1_2.setBounds(254, 41, 74, 19);
 		panel_1.add(lblNewLabel_3_1_1_2);
+		
+		JLabel lblNewLabel_3_1_1_2_1 = new JLabel("Amount");
+		lblNewLabel_3_1_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_3_1_1_2_1.setBounds(659, 41, 74, 19);
+		panel_1.add(lblNewLabel_3_1_1_2_1);
+		
+		JLabel lblNewLabel_3_1_1_2_1_1 = new JLabel("Market");
+		lblNewLabel_3_1_1_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_3_1_1_2_1_1.setBounds(776, 41, 74, 19);
+		panel_1.add(lblNewLabel_3_1_1_2_1_1);
+		
+		JLabel lblNewLabel_3_1_1_2_2 = new JLabel("Real Esatate Name");
+		lblNewLabel_3_1_1_2_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_3_1_1_2_2.setBounds(431, 41, 160, 19);
+		panel_1.add(lblNewLabel_3_1_1_2_2);
 		
 		JPanel panel_2_3_2 = new JPanel();
 		panel_2_3_2.addMouseListener(new MouseAdapter() {
@@ -367,7 +320,11 @@ public class MyToken extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
-				new Market().setVisible(true);
+				if(type.equals("investor")) {
+					new Market().setVisible(true);
+				}else {
+					new MyToken().setVisible(true);
+				}
 			}
 		});
 		panel_2_3_2.setBorder(new LineBorder(Color.PINK, 2, true));
@@ -380,9 +337,11 @@ public class MyToken extends JFrame {
 		lblNewLabel_3_4_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2_3_2.add(lblNewLabel_3_4_2);
 		
+		this.type = type;
 		currentIndex = 0;
 		showData();
         showPropertiesAtIndex();
+        
 	}
 	private void showNextProperties() {
 		int nextIndex = currentIndex + 4;
@@ -461,61 +420,86 @@ public class MyToken extends JFrame {
     }
 
     private void clearLabels() {
-        clearLabel(name1);
-        clearLabel(name2);
-        clearLabel(name3);
-        clearLabel(name4);
-        clearLabel(quantity1);
-        clearLabel(quantity2);
-        clearLabel(quantity3);
-        clearLabel(quantity4);
+        clearLabel(from1);
+        clearLabel(from2);
+        clearLabel(from3);
+        clearLabel(from4);
+        clearLabel(to1);
+        clearLabel(to2);
+        clearLabel(to3);
+        clearLabel(to4);
+        clearLabel(rsName1);
+        clearLabel(rsName2);
+        clearLabel(rsName3);
+        clearLabel(rsName4);
+        clearLabel(amount1);
+        clearLabel(amount2);
+        clearLabel(amount4);
+        clearLabel(amount3);
+        clearLabel(market1);
+        clearLabel(market2);
+        clearLabel(market3);
+        clearLabel(market4);
     }
 
     private void clearLabel(JLabel label) {
-    	label.setText("");
     }
 
     private void updateLabels(int labelIndex, String[] realEstateData) {
     	remaining = remaining +1;
-        JLabel nameLabel = getLabel("name", labelIndex);
-        JLabel quantityLabel = getLabel("quantity", labelIndex);
+        JLabel fromLabel = getLabel("from", labelIndex);
+        JLabel toLabel = getLabel("to", labelIndex);
+        JLabel rsNameLabel = getLabel("rsName", labelIndex);
+        JLabel amountLabel = getLabel("amount", labelIndex);
+        JLabel marketLabel = getLabel("market", labelIndex);
         
-        nameLabel.setText(String.valueOf(realEstateData[3]));
-        quantityLabel.setText(String.valueOf(realEstateData[0]));
-        switch (labelIndex) {
-	        case 1:
-	        	details1 = realEstateData;
-	            break;
-	        case 2:
-	            details2 = realEstateData;
-	            break; 
-	        case 3:
-	            details3 = realEstateData;
-	            break;
-	        case 4:
-	            details4 = realEstateData;
-	            break;
-	        default:
-	            throw new IllegalArgumentException("Invalid labelIndex");
-        }
+        fromLabel.setText(String.valueOf(realEstateData[0]));
+        toLabel.setText(String.valueOf(realEstateData[1]));
+        rsNameLabel.setText(String.valueOf(realEstateData[2]));
+        amountLabel.setText(String.valueOf(realEstateData[3]));
+        marketLabel.setText(String.valueOf(realEstateData[4]));
     }
 
     private JLabel getLabel(String type, int index) {
         switch (type) {
-            case "name":
+            case "from":
                 return switch (index) {
-                    case 1 -> name1;
-                    case 2 -> name2;
-                    case 3 -> name3;
-                    case 4 -> name4;
+                    case 1 -> from1;
+                    case 2 -> from2;
+                    case 3 -> from3;
+                    case 4 -> from4;
                     default -> throw new IllegalArgumentException("Invalid index");
                 };
-            case "quantity":
+            case "to":
                 return switch (index) {
-                    case 1 -> quantity1;
-                    case 2 -> quantity2;
-                    case 3 -> quantity3;
-                    case 4 -> quantity4;
+                    case 1 -> to1;
+                    case 2 -> to2;
+                    case 3 -> to3;
+                    case 4 -> to4;
+                    default -> throw new IllegalArgumentException("Invalid index");
+                };
+            case "rsName":
+                return switch (index) {
+                    case 1 -> rsName1;
+                    case 2 -> rsName2;
+                    case 3 -> rsName3;
+                    case 4 -> rsName4;
+                    default -> throw new IllegalArgumentException("Invalid index");
+                };
+            case "amount":
+                return switch (index) {
+                    case 1 -> amount1;
+                    case 2 -> amount2;
+                    case 3 -> amount3;
+                    case 4 -> amount4;
+                    default -> throw new IllegalArgumentException("Invalid index");
+                };
+            case "market":
+                return switch (index) {
+                    case 1 -> market1;
+                    case 2 -> market2;
+                    case 3 -> market3;
+                    case 4 -> market4;
                     default -> throw new IllegalArgumentException("Invalid index");
                 };
             
@@ -528,6 +512,7 @@ public class MyToken extends JFrame {
     
 	public void showData() {
 		InvestorController i = new InvestorController();
-		tokenList = i.showMyToken();
+		OwnerController o = new OwnerController();
+		tokenList = i.showTransactionHistory(type);
 	}
 }

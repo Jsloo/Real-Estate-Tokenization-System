@@ -7,11 +7,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import Controller.InvestorController;
+
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.ImageIcon;
@@ -21,6 +26,7 @@ import javax.swing.JFileChooser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -32,6 +38,8 @@ import javax.swing.JTextPane;
 import javax.swing.border.MatteBorder;
 import java.awt.SystemColor;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TokenDetails extends JFrame {
 
@@ -44,17 +52,22 @@ public class TokenDetails extends JFrame {
 	private JTextField zip;
 	private JTextField price;
 	private JTextPane  address;
+	private Integer rsId;
+	private Integer saleId;
+	private Integer investorId;
+	public String type;
+	public String market;
+	private JLabel image;
 
 
 	/**
 	 * Launch the application.
 	 */
-	public boolean back = false;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TokenDetails frame = new TokenDetails(null);
+					TokenDetails frame = new TokenDetails(null,null,null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,7 +79,7 @@ public class TokenDetails extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TokenDetails(ArrayList<Object[]>  details) {
+	public TokenDetails(String[]  details,String market,String type) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 563);
 		contentPane = new JPanel();
@@ -94,28 +107,12 @@ public class TokenDetails extends JFrame {
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Image");
+
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel.setBounds(25, 10, 73, 36);
 		panel_1.add(lblNewLabel);
 		
-		JLabel image = new JLabel("");
-		image.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-		        FileNameExtensionFilter fnef = new FileNameExtensionFilter("PNG JPG AND JPEG","png","jpeg","jpg");
-		        fileChooser.addChoosableFileFilter(fnef);
-		        int load = fileChooser.showOpenDialog(null);
-
-		        if(load == JFileChooser.APPROVE_OPTION){
-		            File selectedFile = fileChooser.getSelectedFile();
-		            String path =selectedFile.getAbsolutePath();
-		            ImageIcon imageIcon = new ImageIcon(path);
-		            Image img =imageIcon.getImage().getScaledInstance(250,250,Image.SCALE_SMOOTH);
-		            image.setIcon(new ImageIcon(img));
-		        }
-			}
-		});
+		image = new JLabel("");
 		image.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		image.setBounds(253, 10, 195, 154);
 		panel_1.add(image);
@@ -156,11 +153,62 @@ public class TokenDetails extends JFrame {
 		quantity.setBounds(688, 212, 195, 24);
 		panel_1.add(quantity);
 		
-		JButton btnNewButton = new JButton("Sell");
-		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnNewButton.setBounds(652, 328, 117, 36);
-		panel_1.add(btnNewButton);
+		JButton btnSubmit = new JButton("Sell");
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String m =  null;
+				double prices=0;
+				Integer qty=0;
+				Boolean run = true;
+				InvestorController i = new InvestorController();
+				
+				try {
+					qty = Integer.parseInt(quantity.getText());
+					String priceText = price.getText();
+				    prices = Double.parseDouble(priceText);
+			    	
+				}catch(Exception ex){
+					System.out.println("h2");
+					if(type.equals("sell")){
+				    	m = "Please Enter a Quantity and Price!";
+			    	}else if(type.equals("buy")){
+			    		m = "Please Enter a Valid Quantity!";
+			    	}
+					run = false;
+				}
+				
+				if(run) {
+					try {
+						if(market.equals("primary")) {
+							m = i.buyToken(rsId,qty);
+						}else if(market.equals("second")) {
+							if(type.equals("buy")) {
+								m = i.buySecond(saleId,qty);
+							}else if(type.equals("sell")) {
+								m = i.sellSecond(rsId,qty,prices);
+							}
+						}
+					}catch(Exception ex) {
+					}
+				}
+				
+				if (m.equals("success")) {
+					JOptionPane.showMessageDialog(null, type.equals("buy") ? "Purchase Successful!" : "Publish to Market Succesful!", "success", JOptionPane.INFORMATION_MESSAGE);
+					setVisible(false);
+					Market info = new Market();
+					info.setVisible(true);
+				}else if(m.equals("less")) {
+					JOptionPane.showMessageDialog(null, "Please enter quantity less than it! ", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, m, "Error", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+			}
+		});
+		btnSubmit.setBackground(Color.WHITE);
+		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnSubmit.setBounds(652, 328, 117, 36);
+		panel_1.add(btnSubmit);
 		
 		JLabel lblState = new JLabel("State");
 		lblState.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -247,10 +295,15 @@ public class TokenDetails extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
-				if (back) {
-					new MyToken().setVisible(true);
+				if (type.equals("buy")) {
+					if(market.equals("primary")) {
+						new Market().setVisible(true);
+					}else {
+						new SecondMarket().setVisible(true);
+					}
+					
 				}else {
-					new Market().setVisible(true);
+					new MyToken().setVisible(true);
 				}
 				
 			}
@@ -265,60 +318,70 @@ public class TokenDetails extends JFrame {
 		lblNewLabel_3_4_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2_3_2.add(lblNewLabel_3_4_2);
 		
-		for (Object[] detail : details) {
-            if (detail[0].equals("sell")) {
-				lblSellingTokenAmount.setText("Selling Quantity");
-				lblNumberOfToken.setText("Selling Price");
-				price.setEnabled(true);
-				back = true;
-				btnNewButton.setText("Sell");
-            } 
-            if (detail[0].equals("buy")) {
-            	lblSellingTokenAmount.setText("Buying Quantity");
-            	lblNumberOfToken.setText("Price");
-            	price.setEnabled(false);
-            	back = false;
-            	btnNewButton.setText("Buy");
 
-            }
+		if (type.equals("sell")) {
+			lblSellingTokenAmount.setText("Selling Quantity");
+			lblNumberOfToken.setText("Selling Price");
+			price.setEnabled(true);
+			btnSubmit.setText("Sell");
+        } 
+        if (type.equals("buy")) {
+        	lblSellingTokenAmount.setText("Buying Quantity");
+        	lblNumberOfToken.setText("Price");
+        	price.setEnabled(false);
+        	btnSubmit.setText("Buy");
         }
+        this.market = market;
+        this.type = type;
 		setDetails(details);
 	}
 	
-	public void setDetails(ArrayList<Object[]>  details) {
-		for (int i = 0; i < details.size(); i++) {
-		    Object[] detail = details.get(i);
-
-		    // Print only the second array
-		    if (i == 0) {
-		        
-		        if (detail.length > 1) {
-		            name.setText(String.valueOf(detail[1])); 
-		            state.setText(String.valueOf(detail[2])); 
-		            city.setText(String.valueOf(detail[3])); 
-		            zip.setText(String.valueOf(detail[4])); 
-		            address.setText(String.valueOf(detail[5])); 
-		            totalToken.setText(String.valueOf(detail[6])); 
-		            quantity.setText(""); 
-		            price.setText(""); 
-		            
-		        }
-		    }
-		    
-//		    if(i==1) {
-//		    	System.out.println(detail[0]);
-//		    	if ("sell".equals(detail[0])) {
-//	                System.out.println("sell");
-//	                quantity.setText(String.valueOf(detail[6])); 
-//	                price.setText(String.valueOf(detail[7])); 
-//	            } 
-//	            if ("buy".equals(detail[0])) {
-//	                System.out.println("buy");
-//	                quantity.setText(String.valueOf(detail[6]));
-//	                price.setText(""); 
-//	            }
-//		    }
+	public void setDetails(String[]  details) {
+		if (market.equals("primary")) {
+			rsId = Integer.parseInt(details[0]);
+		    name.setText(details[1]);
+		    state.setText(details[2]);
+		    city.setText(details[3]);
+		    zip.setText(details[4]);
+		    address.setText(details[5]);
+		    totalToken.setText(details[6]);
+		    quantity.setText("");
+		    price.setText(details[7]);
+		    ImageIcon imageIcon = new ImageIcon(details[9]);
+	        Image img =imageIcon.getImage().getScaledInstance(250,250,Image.SCALE_SMOOTH);
+	        image.setIcon(new ImageIcon(img));
+		}else if(market.equals("second")) {
+			if(type.equals("buy")){
+				saleId = Integer.parseInt(details[0]);
+				investorId = Integer.parseInt(details[1]);
+			    name.setText(details[4]);
+			    state.setText(details[5]);
+			    city.setText(details[6]);
+			    zip.setText(details[7]);
+			    address.setText(details[8]);
+			    totalToken.setText(details[2]);
+			    quantity.setText("");
+			    price.setText(details[3]);
+			    ImageIcon imageIcon = new ImageIcon(details[9]);
+		        Image img =imageIcon.getImage().getScaledInstance(250,250,Image.SCALE_SMOOTH);
+		        image.setIcon(new ImageIcon(img));
+			}else if(type.equals("sell")){
+			    name.setText(details[3]);
+			    state.setText(details[4]);
+			    city.setText(details[5]);
+			    zip.setText(details[6]);
+			    address.setText(details[7]);
+			    totalToken.setText(details[0]);
+			    rsId = Integer.parseInt(details[8]);
+			    quantity.setText("");
+			    price.setText("");
+			    ImageIcon imageIcon = new ImageIcon(details[9]);
+		        Image img =imageIcon.getImage().getScaledInstance(250,250,Image.SCALE_SMOOTH);
+		        image.setIcon(new ImageIcon(img));
+			}
+			
 		}
+		
 	}
 
 }
