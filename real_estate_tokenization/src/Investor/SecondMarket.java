@@ -33,7 +33,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class Market extends JFrame {
+public class SecondMarket extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField currentPage;
@@ -63,6 +63,10 @@ public class Market extends JFrame {
     public static String[] details3;
     public Integer currentPageIndex=  1;
     public Integer remaining;
+    private JPanel panel_2_3_2;
+    private JLabel lblNewLabel_3_4_2;
+    private JPanel panel_2_3_3;
+    private JLabel lblNewLabel_3_4_3;
 
 	/** 
 	 * Launch the application.
@@ -72,7 +76,7 @@ public class Market extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Market frame = new Market();
+					SecondMarket frame = new SecondMarket();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,7 +88,7 @@ public class Market extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Market() {
+	public SecondMarket() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 563);
 		contentPane = new JPanel();
@@ -99,8 +103,8 @@ public class Market extends JFrame {
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Real Estate Token Market");
-		lblNewLabel.setBounds(36, 24, 480, 29);
+		JLabel lblNewLabel = new JLabel("Real Estate Token Secondary Market");
+		lblNewLabel.setBounds(36, 24, 687, 29);
 		panel_1.add(lblNewLabel);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 36));
 		
@@ -143,7 +147,7 @@ public class Market extends JFrame {
 		btnBuy1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new TokenDetails(details1,"primary","buy").setVisible(true);
+				new TokenDetails(details1,"second","buy").setVisible(true);
 			}
 		});
 		
@@ -183,7 +187,7 @@ public class Market extends JFrame {
 		btnBuy2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new TokenDetails(details2,"primary","buy").setVisible(true);
+				new TokenDetails(details2,"second","buy").setVisible(true);
 			}
 		});
 		btnBuy2.setBounds(65, 245, 85, 21);
@@ -222,7 +226,7 @@ public class Market extends JFrame {
 		btnBuy3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new TokenDetails(details3,"primary","buy").setVisible(true);
+				new TokenDetails(details3,"second","buy").setVisible(true);
 			}
 		});
 		btnBuy3.setBounds(65, 245, 85, 21);
@@ -279,7 +283,7 @@ public class Market extends JFrame {
 		});
 		panel_2_3.setBorder(new LineBorder(Color.PINK, 2, true));
 		panel_2_3.setBackground(Color.WHITE);
-		panel_2_3.setBounds(674, 65, 103, 34);
+		panel_2_3.setBounds(670, 65, 103, 34);
 		panel_1.add(panel_2_3);
 		panel_2_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -292,7 +296,7 @@ public class Market extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setVisible(false);
-				new SecondMarket().setVisible(true);
+				new Market().setVisible(true);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -305,15 +309,15 @@ public class Market extends JFrame {
 		});
 		panel_2_3_1.setBorder(new LineBorder(Color.PINK, 2, true));
 		panel_2_3_1.setBackground(Color.WHITE);
-		panel_2_3_1.setBounds(503, 65, 161, 34);
+		panel_2_3_1.setBounds(499, 65, 161, 34);
 		panel_1.add(panel_2_3_1);
 		panel_2_3_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel lblNewLabel_3_4_1 = new JLabel("Secondary Market");
+		JLabel lblNewLabel_3_4_1 = new JLabel("Primary Market");
 		lblNewLabel_3_4_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2_3_1.add(lblNewLabel_3_4_1);
 		
-		JPanel panel_2_3_2 = new JPanel();
+		panel_2_3_2 = new JPanel();
 		panel_2_3_2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -331,15 +335,15 @@ public class Market extends JFrame {
 		});
 		panel_2_3_2.setBorder(new LineBorder(Color.PINK, 2, true));
 		panel_2_3_2.setBackground(Color.WHITE);
-		panel_2_3_2.setBounds(787, 65, 173, 34);
+		panel_2_3_2.setBounds(784, 65, 173, 34);
 		panel_1.add(panel_2_3_2);
 		panel_2_3_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel lblNewLabel_3_4_2 = new JLabel("Transaction History");
+		lblNewLabel_3_4_2 = new JLabel("Transaction History");
 		lblNewLabel_3_4_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2_3_2.add(lblNewLabel_3_4_2);
 		
-		JPanel panel_2_3_3 = new JPanel();
+		panel_2_3_3 = new JPanel();
 		panel_2_3_3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -364,7 +368,7 @@ public class Market extends JFrame {
 		panel_1.add(panel_2_3_3);
 		panel_2_3_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel lblNewLabel_3_4_3 = new JLabel("Log Out");
+		lblNewLabel_3_4_3 = new JLabel("Log Out");
 		lblNewLabel_3_4_3.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2_3_3.add(lblNewLabel_3_4_3);
 		
@@ -462,24 +466,22 @@ public class Market extends JFrame {
         JLabel nameLabel = getLabel("name", labelIndex);
         JLabel priceLabel = getLabel("price", labelIndex);
         JLabel quantityLabel = getLabel("quantity", labelIndex);
-
         JLabel imageLabel = getLabel("image", labelIndex);
 
         ImageIcon imageIcon = new ImageIcon(String.valueOf(realEstateData[9]));
         Image img =imageIcon.getImage().getScaledInstance(250,250,Image.SCALE_SMOOTH);
         imageLabel.setIcon(new ImageIcon(img));
-
+        nameLabel.setText(String.valueOf(realEstateData[4]));
+        priceLabel.setText(String.valueOf(realEstateData[3]));
+        quantityLabel.setText(String.valueOf(realEstateData[2]));
         
-        nameLabel.setText(String.valueOf(realEstateData[1]));
-        priceLabel.setText(String.valueOf(realEstateData[7]));
-        quantityLabel.setText(String.valueOf(realEstateData[6]));
         switch (labelIndex) {
 	        case 1:
-	        	details1 = realEstateData;
+	            details1 = realEstateData;
 	            break;
 	        case 2:
 	            details2 = realEstateData;
-	            break; 
+	            break;
 	        case 3:
 	            details3 = realEstateData;
 	            break;
@@ -528,6 +530,6 @@ public class Market extends JFrame {
     
 	public void showData() {
 		InvestorController i = new InvestorController();
-		realEstateList = i.showMarket();
+		realEstateList = i.showSecondMarket();
 	}
 }

@@ -7,8 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import java.awt.Dimension;
-
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
@@ -16,10 +14,10 @@ import java.awt.Image;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import Both.TransactionHistory;
 import Controller.InvestorController;
 import Controller.OwnerController;
-import Investor.Market;
-import Project_Owner.TokenDetails;
+import Investor.Login;
 
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -31,19 +29,45 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JSlider;
 import javax.swing.JTree;
 import javax.swing.JScrollBar;
 import javax.swing.JSeparator;
 import javax.swing.JTextPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MyToken extends JFrame {
 
 	private JPanel contentPane;
-	private JPanel panel_1;
-	private JTextField textField;
-
+	private JTextField currentPage;
+	private JLabel name1;
+	private JLabel name2;
+	private JLabel name3;
+	private JLabel name4;
+	private JLabel quantity1;
+	private JLabel quantity2;
+	private JLabel quantity3;
+	private JLabel quantity4;
+	private List<String[]> tokenList;
+    private int currentIndex;
+    private JButton btnDetails1;
+    private JButton btnDetails2;
+    private JButton btnDetails3;
+    private JButton btnDetails4;
+    private JPanel mtPanel1;
+    private JPanel mtPanel2;
+    private JPanel mtPanel3;
+    private JPanel mtPanel4;
+    public static String[] tokenData;
+    public static String[] details1;
+    public static String[] details2;
+    public static String[] details3;
+    public static String[] details4;
+    public Integer currentPageIndex=  1;
+    public Integer remaining;
 	/**
 	 * Launch the application.
 	 */
@@ -81,34 +105,237 @@ public class MyToken extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblRealEstateToken = new JLabel("My Published Token");
+		JLabel lblRealEstateToken = new JLabel("My Token");
 		lblRealEstateToken.setFont(new Font("Tahoma", Font.BOLD, 36));
-		lblRealEstateToken.setBounds(40, 27, 380, 38);
+		lblRealEstateToken.setBounds(51, 34, 192, 38);
 		panel.add(lblRealEstateToken);
 		
-		panel_1 = new JPanel();
+		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
 		panel_1.setBackground(Color.PINK);
 		panel_1.setBounds(40, 96, 903, 390);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
+		mtPanel1 = new JPanel();
+		mtPanel1.setLayout(null);
+		mtPanel1.setBackground(Color.WHITE);
+		mtPanel1.setBounds(42, 70, 780, 58);
+		panel_1.add(mtPanel1);
+		
+		name1 = new JLabel("Name");
+		name1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		name1.setBounds(74, 21, 242, 19);
+		mtPanel1.add(name1);
+		
+		quantity1 = new JLabel("Quantity");
+		quantity1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		quantity1.setBounds(343, 21, 74, 19);
+		mtPanel1.add(quantity1);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("No");
+		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_3_1.setBounds(11, 21, 53, 19);
+		mtPanel1.add(lblNewLabel_3_1);
+		
+		JPanel btnDetails1 = new JPanel();
+		btnDetails1.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+		        // Set the font to bold
+				btnDetails1.setBackground(new java.awt.Color(204,204,204));
+		    }
+		    
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		    	btnDetails1.setBackground(new java.awt.Color(255,255,255));
+		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {	
+				setVisible(false);
+				new TokenDetails(details1).setVisible(true);
+			}
+		});
+		btnDetails1.setBorder(new LineBorder(Color.PINK, 2, true));
+		btnDetails1.setBackground(Color.WHITE);
+		btnDetails1.setBounds(674, 10, 96, 34);
+		mtPanel1.add(btnDetails1);
+		btnDetails1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblNewLabel_3_4 = new JLabel("Details");
+		
+		lblNewLabel_3_4.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnDetails1.add(lblNewLabel_3_4);
+		
+		mtPanel2 = new JPanel();
+		mtPanel2.setLayout(null);
+		mtPanel2.setBackground(Color.WHITE);
+		mtPanel2.setBounds(42, 148, 780, 58);
+		panel_1.add(mtPanel2);
+		
+		name2 = new JLabel("Name");
+		name2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		name2.setBounds(74, 21, 242, 19);
+		mtPanel2.add(name2);
+		
+		quantity2 = new JLabel("Quantity");
+		quantity2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		quantity2.setBounds(343, 21, 74, 19);
+		mtPanel2.add(quantity2);
+		
+		JLabel lblNewLabel_3_1_2 = new JLabel("No");
+		lblNewLabel_3_1_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_3_1_2.setBounds(11, 21, 53, 19);
+		mtPanel2.add(lblNewLabel_3_1_2);
+		
+		JPanel btnDetails2 = new JPanel();
+		btnDetails2.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+		        // Set the font to bold
+				btnDetails2.setBackground(new java.awt.Color(204,204,204));
+		    }
+		    
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		    	btnDetails2.setBackground(new java.awt.Color(255,255,255));
+		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				new TokenDetails(details2).setVisible(true);
+			}
+		});
+		btnDetails2.setBorder(new LineBorder(Color.PINK, 2, true));
+		btnDetails2.setBackground(Color.WHITE);
+		btnDetails2.setBounds(674, 10, 96, 34);
+		mtPanel2.add(btnDetails2);
+		btnDetails2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblNewLabel_3_4_1 = new JLabel("Details");
+		lblNewLabel_3_4_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnDetails2.add(lblNewLabel_3_4_1);
+		
+		mtPanel3 = new JPanel();
+		mtPanel3.setLayout(null);
+		mtPanel3.setBackground(Color.WHITE);
+		mtPanel3.setBounds(42, 228, 780, 58);
+		panel_1.add(mtPanel3);
+		
+		name3 = new JLabel("Name");
+		name3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		name3.setBounds(74, 21, 242, 19);
+		mtPanel3.add(name3);
+		
+		quantity3 = new JLabel("Quantity");
+		quantity3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		quantity3.setBounds(343, 21, 74, 19);
+		mtPanel3.add(quantity3);
+		
+		JLabel lblNewLabel_3_1_2_1 = new JLabel("No");
+		lblNewLabel_3_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_3_1_2_1.setBounds(11, 21, 53, 19);
+		mtPanel3.add(lblNewLabel_3_1_2_1);
+		
+		JPanel btnDetails3 = new JPanel();
+		btnDetails3.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+		        // Set the font to bold
+				btnDetails3.setBackground(new java.awt.Color(204,204,204));
+		    }
+		    
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		    	btnDetails3.setBackground(new java.awt.Color(255,255,255));
+		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				new TokenDetails(details3).setVisible(true);
+			}
+		});
+		btnDetails3.setBorder(new LineBorder(Color.PINK, 2, true));
+		btnDetails3.setBackground(Color.WHITE);
+		btnDetails3.setBounds(674, 10, 96, 34);
+		mtPanel3.add(btnDetails3);
+		btnDetails3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblNewLabel_3_4_1_1 = new JLabel("Details");
+		lblNewLabel_3_4_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnDetails3.add(lblNewLabel_3_4_1_1);
+		
+		mtPanel4 = new JPanel();
+		mtPanel4.setLayout(null);
+		mtPanel4.setBackground(Color.WHITE);
+		mtPanel4.setBounds(42, 309, 780, 58);
+		panel_1.add(mtPanel4);
+		
+		name4 = new JLabel("Name");
+		name4.setFont(new Font("Tahoma", Font.BOLD, 15));
+		name4.setBounds(74, 21, 242, 19);
+		mtPanel4.add(name4);
+		
+		quantity4 = new JLabel("Quantity");
+		quantity4.setFont(new Font("Tahoma", Font.BOLD, 15));
+		quantity4.setBounds(343, 21, 74, 19);
+		mtPanel4.add(quantity4);
+		
+		JLabel lblNewLabel_3_1_2_1_1 = new JLabel("No");
+		lblNewLabel_3_1_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_3_1_2_1_1.setBounds(11, 21, 53, 19);
+		mtPanel4.add(lblNewLabel_3_1_2_1_1);
+		
+		JPanel btnDetails4 = new JPanel();
+		btnDetails4.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+		        // Set the font to bold
+				btnDetails4.setBackground(new java.awt.Color(204,204,204));
+		    }
+		    
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		    	btnDetails4.setBackground(new java.awt.Color(255,255,255));
+		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				new TokenDetails(details4).setVisible(true);
+			}
+		});
+		btnDetails4.setBorder(new LineBorder(Color.PINK, 2, true));
+		btnDetails4.setBackground(Color.WHITE);
+		btnDetails4.setBounds(674, 10, 96, 34);
+		mtPanel4.add(btnDetails4);
+		btnDetails4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblNewLabel_3_4_1_2 = new JLabel("Details");
+		lblNewLabel_3_4_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnDetails4.add(lblNewLabel_3_4_1_2);
+		
 		JButton btnNewButton_3_1 = new JButton("<");
+		btnNewButton_3_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showPreviousProperties();
+			}
+		});
 		btnNewButton_3_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNewButton_3_1.setBackground(Color.WHITE);
 		btnNewButton_3_1.setBounds(731, 10, 53, 21);
 		panel_1.add(btnNewButton_3_1);
 		
-		textField = new JTextField();
-		textField.setText("1");
-		textField.setFont(new Font("Tahoma", Font.BOLD, 15));
-		textField.setEditable(false);
-		textField.setColumns(10);
-		textField.setBorder(new LineBorder(Color.BLACK, 2, true));
-		textField.setBounds(794, 13, 28, 19);
-		panel_1.add(textField);
+		currentPage = new JTextField();
+		currentPage.setText("1");
+		currentPage.setFont(new Font("Tahoma", Font.BOLD, 15));
+		currentPage.setEditable(false);
+		currentPage.setColumns(10);
+		currentPage.setBorder(new LineBorder(Color.BLACK, 2, true));
+		currentPage.setBounds(794, 13, 28, 19);
+		panel_1.add(currentPage);
 		
 		JButton btnNewButton_3_1_1 = new JButton(">");
+		btnNewButton_3_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showNextProperties();
+			}
+		});
 		btnNewButton_3_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNewButton_3_1_1.setBackground(Color.WHITE);
 		btnNewButton_3_1_1.setBounds(832, 12, 55, 21);
@@ -131,8 +358,13 @@ public class MyToken extends JFrame {
 		
 		JPanel panel_2_3_2 = new JPanel();
 		panel_2_3_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				new ICO().setVisible(true);
+			}
+			@Override
 			public void mouseEntered(MouseEvent e) {
-		        // Set the font to bold
 				panel_2_3_2.setBackground(new java.awt.Color(204,204,204));
 		    }
 		    
@@ -140,15 +372,10 @@ public class MyToken extends JFrame {
 		    public void mouseExited(MouseEvent e) {
 		    	panel_2_3_2.setBackground(new java.awt.Color(255,255,255));
 		    }
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				new ICO().setVisible(true);
-			}
 		});
 		panel_2_3_2.setBorder(new LineBorder(Color.PINK, 2, true));
 		panel_2_3_2.setBackground(Color.WHITE);
-		panel_2_3_2.setBounds(802, 59, 143, 34);
+		panel_2_3_2.setBounds(816, 51, 127, 34);
 		panel.add(panel_2_3_2);
 		panel_2_3_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -156,94 +383,211 @@ public class MyToken extends JFrame {
 		lblNewLabel_3_4_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panel_2_3_2.add(lblNewLabel_3_4_2);
 		
-		showMenu();
+		JPanel panel_2_3_2_1 = new JPanel();
+		panel_2_3_2_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				new TransactionHistory("pownwer").setVisible(true);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				panel_2_3_2_1.setBackground(new java.awt.Color(204,204,204));
+		    }
+		    
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		    	panel_2_3_2_1.setBackground(new java.awt.Color(255,255,255));
+		    }
+		});
+		panel_2_3_2_1.setBorder(new LineBorder(Color.PINK, 2, true));
+		panel_2_3_2_1.setBackground(Color.WHITE);
+		panel_2_3_2_1.setBounds(622, 51, 173, 34);
+		panel.add(panel_2_3_2_1);
+		panel_2_3_2_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
+		JLabel lblNewLabel_3_4_2_1 = new JLabel("Transaction History");
+		lblNewLabel_3_4_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		panel_2_3_2_1.add(lblNewLabel_3_4_2_1);
+		
+		JPanel panel_2_3_3 = new JPanel();
+		panel_2_3_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				OwnerController out = new OwnerController();
+				out.logOut();
+				setVisible(false);
+				new Login_Owner().setVisible(true);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				panel_2_3_3.setBackground(new java.awt.Color(204,204,204));
+		    }
+		    
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		    	panel_2_3_3.setBackground(new java.awt.Color(255,255,255));
+		    }
+		});
+		panel_2_3_3.setBorder(new LineBorder(Color.PINK, 2, true));
+		panel_2_3_3.setBackground(Color.WHITE);
+		panel_2_3_3.setBounds(840, 11, 103, 34);
+		panel.add(panel_2_3_3);
+		panel_2_3_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblNewLabel_3_4_3 = new JLabel("Log Out");
+		lblNewLabel_3_4_3.setFont(new Font("Tahoma", Font.BOLD, 16));
+		panel_2_3_3.add(lblNewLabel_3_4_3);
+		
+		currentIndex = 0;
+		showData();
+        showPropertiesAtIndex();
+
 	}
+	private void showNextProperties() {
+		int nextIndex = currentIndex + 4;
+        if (nextIndex < tokenList.size()) {
+        	currentPageIndex = currentPageIndex + 1;
+            currentIndex = nextIndex;
+            showPropertiesAtIndex();
+        } 
+    }
 
+    private void showPreviousProperties() {
+        currentIndex -= 4;
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        }else {
+        	currentPageIndex = currentPageIndex -1;
+        }
+        showPropertiesAtIndex();
+    }
 
+    private void showPropertiesAtIndex() {
+    	remaining = 0;
+    	currentPage.setText(Integer.toString(currentPageIndex));
+    	clearLabels();
 
-public void showMenu(){
+        int endIndex = Math.min(currentIndex + 4, tokenList.size());
 
-	int xPosition = 30; 
-    int yPosition = 70; 
-    int maxItemsPerRow = 2;
-    int itemCounter = 0;
+        for (int i = currentIndex, labelIndex = 1; i < endIndex; i++, labelIndex++) {
+        	String[] realEstateData = tokenList.get(i);
+            updateLabels(labelIndex, realEstateData);
+        }
 
-    Font nameFont = new Font("Tahoma", Font.BOLD, 26);
-    Font priceFont = new Font("SansSerif", Font.BOLD, 22);
+        int remainingData = 4 - remaining;
+
+        if (remainingData == 0) {
+        	setPanelVisibility(1, true);
+        	setPanelVisibility(2, true);
+            setPanelVisibility(3, true);
+            setPanelVisibility(4, true);
+        } else if (remainingData == 2) {
+        	setPanelVisibility(1, true);
+        	setPanelVisibility(2, true);
+        	setPanelVisibility(3, false);
+            setPanelVisibility(4, false);
+        } else if (remainingData == 1) {
+        	setPanelVisibility(1, true);
+        	setPanelVisibility(2, true);
+        	setPanelVisibility(3, true);
+            setPanelVisibility(4, false);
+        }
+        else if (remainingData == 3) {
+        	setPanelVisibility(1, true);
+        	setPanelVisibility(2, false);
+        	setPanelVisibility(3, false);
+            setPanelVisibility(4, false);
+        }
+    }
+	
+	private void setPanelVisibility(int panelIndex, boolean isVisible) {
+        switch (panelIndex) {
+            case 1:
+            	mtPanel1.setVisible(isVisible);
+                break;
+            case 2:
+            	mtPanel2.setVisible(isVisible);
+                break;
+            case 3:
+            	mtPanel3.setVisible(isVisible);
+                break;
+            case 4:
+            	mtPanel4.setVisible(isVisible);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid panelIndex");
+        }
+    }
+
+    private void clearLabels() {
+        clearLabel(name1);
+        clearLabel(name2);
+        clearLabel(name3);
+        clearLabel(name4);
+        clearLabel(quantity1);
+        clearLabel(quantity2);
+        clearLabel(quantity3);
+        clearLabel(quantity4);
+    }
+
+    private void clearLabel(JLabel label) {
+    	label.setText("");
+    }
+
+    private void updateLabels(int labelIndex, String[] realEstateData) {
+    	remaining = remaining +1;
+        JLabel nameLabel = getLabel("name", labelIndex);
+        JLabel quantityLabel = getLabel("quantity", labelIndex);
         
-    try {
-    	OwnerController o = new OwnerController();
-    	ArrayList<String[]> TokenList = new ArrayList<>();
-    	TokenList = o.showToken();
-    	System.out.println(TokenList);
+        nameLabel.setText(String.valueOf(realEstateData[1]));
+        quantityLabel.setText(String.valueOf(realEstateData[6]));
+        switch (labelIndex) {
+	        case 1:
+	        	details1 = realEstateData;
+	            break;
+	        case 2:
+	            details2 = realEstateData;
+	            break; 
+	        case 3:
+	            details3 = realEstateData;
+	            break;
+	        case 4:
+	            details4 = realEstateData;
+	            break;
+	        default:
+	            throw new IllegalArgumentException("Invalid labelIndex");
+        }
+    }
 
-
-        for (String[] TokenData : TokenList) {
-        	System.out.println('1');
-            JPanel TokenPanel = new JPanel();
-            TokenPanel.setBackground(new java.awt.Color(255,255,255));
-            TokenPanel.setLayout(null);
-
-            JLabel nameLabel = new JLabel(TokenData[0]);
-            nameLabel.setBounds(80, 25, 230, 30);
-            nameLabel.setFont(nameFont);
-            nameLabel.setForeground(Color.BLACK);
-            TokenPanel.add(nameLabel);
-
+    private JLabel getLabel(String type, int index) {
+        switch (type) {
+            case "name":
+                return switch (index) {
+                    case 1 -> name1;
+                    case 2 -> name2;
+                    case 3 -> name3;
+                    case 4 -> name4;
+                    default -> throw new IllegalArgumentException("Invalid index");
+                };
+            case "quantity":
+                return switch (index) {
+                    case 1 -> quantity1;
+                    case 2 -> quantity2;
+                    case 3 -> quantity3;
+                    case 4 -> quantity4;
+                    default -> throw new IllegalArgumentException("Invalid index");
+                };
             
-            JLabel priceLabel = new JLabel(TokenData[1]);
-            priceLabel.setBounds(358, 25, 230, 30);
-            priceLabel.setForeground(Color.BLACK);
-            priceLabel.setFont(priceFont);
-            TokenPanel.add(priceLabel);
-
-            
-            TokenPanel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-//                    TokenDetails  = new TokenDetails();
-//                    item.setVisible(true);
-                }
                 
-//                @Override
-//                public void mouseEntered(MouseEvent e) {
-//                	TokenPanel.setBackground(new java.awt.Color(0,153,153));
-//                    imageLabel.setBounds(10, 10, 230, 230);
-//                }
-//                
-//                @Override
-//                public void mouseExited(MouseEvent e) {
-//                    greenPanel.setBackground(new java.awt.Color(0,102,102));
-//                    imageLabel.setBounds(5, 5, 240, 240);
-//                }
-            });
-
-            
-            TokenPanel.setBounds(xPosition, yPosition, 860, 80);
-
-            
-            panel_1.add(TokenPanel);
-
-            
-            itemCounter++;
-            if (itemCounter >= maxItemsPerRow) {
-            	System.out.println('2');
-                itemCounter = 0;
-                xPosition = 30;
-                yPosition += 50;
-            } 
-            
-            
+            default:
+                throw new IllegalArgumentException("Invalid type");
         }
-    }catch(Exception e) {
-            e.printStackTrace();
-        }
-}
-}
+    }
 
-//public void showData() {
-//	OwnerController o = new OwnerController();
-//	ArrayList<String[]> TokenList = new ArrayList<>();
-//	TokenList = o.showToken();
-//}
+    
+	public void showData() {
+		OwnerController i = new OwnerController();
+		tokenList = i.showMyRs();
+	}
+}

@@ -3,27 +3,23 @@ package BlockChain;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-
-
-public class Block {
+public class Block implements Serializable{
 	private static final long serialVersionUID = 1L;
 	public Header header;
 	public Transaction tranxLst;
 	
-	public Block(String previoushHash) {
-		this.header = new Header();
+	public Block(String previoushHash, int index) {
+		this.header = new Header(index);
 		header.setTimestamp(new Timestamp(System.currentTimeMillis()).getTime());
-//		System.out.println(new Timestamp(System.currentTimeMillis()).getTime());
 		header.setPrevHash(previoushHash);
 		
 		Transaction trx = new Transaction();
         header.setMerkleRoot(trx.getMerkleRoot());
-
+        header.setIndex(index+1);
 		
 		String info = String.join("+", Integer.toString(header.getIndex()),
 				Long.toString(header.getTimestamp()),header.getPrevHash(),header.merkleRoot);
 		String blockHash = Hasher.sha256(info);
-//		System.out.println("innfo = "+info);
 		header.setCurrHash(blockHash);
 	}
 	
@@ -55,6 +51,10 @@ public class Block {
 					", timestamp=" + timestamp +
 					", merkleroot=" + merkleRoot +"]";
 		} 
+		
+		public Header(int index) {
+            this.index = index;
+        }
 		
 		public int getIndex() {
 			return index;
@@ -98,13 +98,6 @@ public class Block {
 			this.merkleRoot = merkleRoot;
 			
 		}
-
-
-		
-
-
-
-
 
 	}
 }
